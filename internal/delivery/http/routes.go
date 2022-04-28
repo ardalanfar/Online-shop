@@ -1,5 +1,0 @@
-package 
-
-func routing() {
-
-}

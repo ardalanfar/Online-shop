@@ -5,7 +5,7 @@ import (
 	"context"
 )
 
-//user interactor (interface)
+//Account contract (interface)
 
 type Account interface {
 	Login(context.Context, account.LoginAccountRequest) (account.LoginAccountResponse, error)

@@ -1,18 +1,14 @@
-package intractor
+package account
 
-//Interactor Account (loign , register)
-
-import (
-	psql "Farashop/internal/repository/postgresql"
-)
+//Account intractor (loign , register)
 
 type Interactor struct {
-	store psql.AccountStore
+	//store psql.AccountStore
 }
 
-func New(store psql.AccountStore) Interactor {
-	return Interactor{store: store}
-}
+//func New(store psql.AccountStore) Interactor {
+//return Interactor{store: store}
+//}
 
 // func (i Interactor) login(ctx context.Context, req account.LoginAccountRequest) (account.LoginAccountResponse, error) {
 

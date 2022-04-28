@@ -1,5 +1,0 @@
-package echo
-
-func routing() {
-
-}

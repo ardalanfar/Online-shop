@@ -2,7 +2,7 @@ package account
 
 import "Farashop/internal/entity"
 
-//Account Request And Response Struct
+//Account Contract Request And Response (Struct)
 
 type LoginAccountRequest struct {
 	Username string `json:"username"`

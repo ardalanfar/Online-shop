@@ -1,6 +1,7 @@
-package config
+package conf
 
-//config database mysql
+//Config Database Postgresql
+
 type Postgresql struct {
 	Username string `yaml:"username"`
 	Password string `yaml:"password"`
