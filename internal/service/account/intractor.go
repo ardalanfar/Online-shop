@@ -3,7 +3,8 @@ package account
 //Account intractor (loign , register)
 
 import (
-	"Farashop/entity"
+	"Farashop/internal/entity"
+	"Farashop/internal/pkg"
 	"Farashop/internal/repository"
 	"context"
 )
@@ -24,7 +25,9 @@ func (i Interactor) Register(ctx context.Context, req RegisterAccountRequest) (R
 		Password: req.Password,
 	}
 
-	//createdAccount, err := i.store.createdAccount(ctx, user)
+	user.Password = pkg.Hash.HashPassword(user.Password)
+
+	createdAccount, err := i.store.createdAccount(ctx, user)
 
 	//return
 }
