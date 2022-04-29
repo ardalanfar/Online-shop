@@ -1,4 +1,4 @@
-package postgresql
+package repository
 
 import (
 	"Farashop/internal/entity"
@@ -8,9 +8,9 @@ import (
 //Account Store contract (interface)
 
 type AccountStore interface {
-	CreateUser(ctx context.Context, user entity.User) (entity.User, error)
-	GetUser(ctx context.Context, userID uint) (entity.User, error)
-	UpdateUser(ctx context.Context, user entity.User) (entity.User, error)
-	FindUsers(ctx context.Context) ([]entity.User, error)
-	DeleteUser(ctx context.Context, userID uint) error
+	createdAccount(ctx context.Context, user entity.User) (entity.User, error)
+	GetAccount(ctx context.Context, userID uint) (entity.User, error)
+	UpdateAccount(ctx context.Context, user entity.User) (entity.User, error)
+	FindAccount(ctx context.Context) ([]entity.User, error)
+	DeleteAccount(ctx context.Context, userID uint) error
 }

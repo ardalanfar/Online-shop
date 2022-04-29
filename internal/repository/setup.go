@@ -1,7 +1,9 @@
-package postgresql
+package repository
 
+/*
 import (
 	"Farashop/internal/conf"
+	"Farashop/internal/repository/model"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -18,10 +20,10 @@ func New() PsqlStore {
 		panic("Failed to connect to database!")
 	}
 
-	if aErr := database.AutoMigrate(&User{}); aErr != nil {
+	if aErr := database.AutoMigrate(&model.User{}); aErr != nil {
 		panic("Failed to auto migrate database!")
 	}
 
 	return PsqlStore{db: database}
-
 }
+*/

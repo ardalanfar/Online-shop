@@ -1,20 +1,7 @@
-package postgresql
+package account
 
-func CreateUser() {
-}
+//Account Store intractor
 
-func GetUser() {
+// func createdAccount() {
 
-}
-
-func UpdateUser() {
-
-}
-
-func FindUsers() {
-
-}
-
-func DeleteUser() {
-
-}
+// }

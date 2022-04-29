@@ -2,18 +2,33 @@ package account
 
 //Account intractor (loign , register)
 
+import (
+	"Farashop/entity"
+	"Farashop/internal/repository"
+	"context"
+)
+
 type Interactor struct {
-	//store psql.AccountStore
+	store repository.AccountStore
 }
 
-//func New(store psql.AccountStore) Interactor {
-//return Interactor{store: store}
-//}
+func New(store repository.AccountStore) Interactor {
+	return Interactor{store: store}
+}
 
-// func (i Interactor) login(ctx context.Context, req account.LoginAccountRequest) (account.LoginAccountResponse, error) {
+func (i Interactor) Register(ctx context.Context, req RegisterAccountRequest) (RegisterAccountResponse, error) {
 
-// }
+	user := entity.User{
+		Username: req.Username,
+		Email:    req.Email,
+		Password: req.Password,
+	}
 
-// func (i Interactor) Register(ctx context.Context, req account.RegisterAccountRequest) error {
+	//createdAccount, err := i.store.createdAccount(ctx, user)
+
+	//return
+}
+
+// func (i Interactor) login(ctx context.Context, req LoginAccountRequest) (LoginAccountResponse, error) {
 
 // }

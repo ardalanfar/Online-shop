@@ -4,6 +4,8 @@ import "Farashop/internal/entity"
 
 //Account Contract Request And Response (Struct)
 
+/*-----------------Login----------------------*/
+
 type LoginAccountRequest struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
@@ -12,6 +14,8 @@ type LoginAccountRequest struct {
 type LoginAccountResponse struct {
 	User entity.User `json:"user"`
 }
+
+/*-----------------Register----------------------*/
 
 type RegisterAccountRequest struct {
 	Username string `json:"username"`
@@ -22,3 +26,5 @@ type RegisterAccountRequest struct {
 type RegisterAccountResponse struct {
 	User entity.User `json:"user"`
 }
+
+/*----------------------------------------------*/
