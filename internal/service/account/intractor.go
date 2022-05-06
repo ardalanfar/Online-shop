@@ -4,7 +4,6 @@ package account
 
 import (
 	"Farashop/internal/entity"
-	"Farashop/internal/pkg"
 	"Farashop/internal/repository"
 	"context"
 )
@@ -25,11 +24,15 @@ func (i Interactor) Register(ctx context.Context, req RegisterAccountRequest) (R
 		Password: req.Password,
 	}
 
-	user.Password = pkg.Hash.HashPassword(user.Password)
+	//Password := pkg.Hash.HashPassword(user.Password)
+	//user.Password = Password
 
-	createdAccount, err := i.store.createdAccount(ctx, user)
+	createdAccount, err := i.store.CreatedAccount(ctx, user)
+	if err != nil {
+		return RegisterAccountResponse{}, err
+	}
 
-	//return
+	return RegisterAccountResponse{User: createdAccount}, nil
 }
 
 // func (i Interactor) login(ctx context.Context, req LoginAccountRequest) (LoginAccountResponse, error) {
