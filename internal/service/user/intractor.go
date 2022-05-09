@@ -1,24 +1,23 @@
-package account
+package user
 
-//Account intractor (loign , register)
+//User intractor (loign , register)
 
 import (
-	"Farashop/internal/adapter/store"
+	"Farashop/internal/contract"
 	"Farashop/internal/dto"
 	"Farashop/internal/entity"
 	"context"
 )
 
 type Interactor struct {
-	store store.UserStore
+	store contract.UserStore
 }
 
-func New(store store.UserStore) Interactor {
+func New(store contract.UserStore) Interactor {
 	return Interactor{store: store}
 }
 
 func (i Interactor) Register(ctx context.Context, req dto.CreateUserRequest) (dto.CreateUserResponse, error) {
-
 	user := entity.User{
 		Username: req.Username,
 		Email:    req.Email,

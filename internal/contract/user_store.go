@@ -1,4 +1,4 @@
-package store
+package contract
 
 import (
 	"Farashop/internal/entity"
@@ -9,8 +9,5 @@ import (
 
 type UserStore interface {
 	CreateUser(ctx context.Context, user entity.User) (entity.User, error)
-	// GetUser()
-	// UpdateUser()
-	// FindUser()
-	// DeleteUser()
+	//EditUser()
 }

@@ -3,7 +3,7 @@ package http
 import (
 	"Farashop/internal/adapter/store"
 	"Farashop/internal/dto"
-	"Farashop/internal/service/account"
+	"Farashop/internal/service/user"
 	"net/http"
 
 	"github.com/labstack/echo/v4"
@@ -22,7 +22,7 @@ func CreateUser(conn store.DbConn) echo.HandlerFunc {
 		// 	return echo.NewHTTPError(http.StatusUnprocessableEntity, err.Error())
 		// }
 
-		resp, err := account.New(conn).Register(c.Request().Context(), req)
+		resp, err := user.New(conn).Register(c.Request().Context(), req)
 
 		if err != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())

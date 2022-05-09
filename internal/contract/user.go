@@ -1,13 +1,13 @@
-package service
+package contract
 
 import (
 	"Farashop/internal/dto"
 	"context"
 )
 
-//Account contract (interface)
+//user intractor contract (interface)
 
-type Account interface {
+type User interface {
 	Register(context.Context, dto.CreateUserRequest) (dto.CreateUserResponse, error)
 	//Login()
 }
