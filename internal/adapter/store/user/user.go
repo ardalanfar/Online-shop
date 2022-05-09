@@ -1,4 +1,4 @@
-package account
+package user
 
 //Account Store intractor
 
@@ -9,11 +9,11 @@ import (
 	"context"
 )
 
-func (p store.DbConn) CreatedAccount(ctx context.Context, user entity.User) (entity.User, error) {
+func (s store.DbConn) CreateUser(ctx context.Context, user entity.User) (entity.User, error) {
 
 	u := model.MapFromUserEntity(user)
 
-	if err := p.Db.WithContext(ctx).Create(&u).Error; err != nil {
+	if err := s.Db.WithContext(ctx).Create(&u).Error; err != nil {
 		return entity.User{}, err
 	}
 

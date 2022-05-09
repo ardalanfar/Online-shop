@@ -3,20 +3,21 @@ package account
 //Account intractor (loign , register)
 
 import (
+	"Farashop/internal/adapter/store"
+	"Farashop/internal/dto"
 	"Farashop/internal/entity"
-	"Farashop/internal/repository"
 	"context"
 )
 
 type Interactor struct {
-	store repository.AccountStore
+	store store.UserStore
 }
 
-func New(store repository.AccountStore) Interactor {
+func New(store store.UserStore) Interactor {
 	return Interactor{store: store}
 }
 
-func (i Interactor) Register(ctx context.Context, req RegisterAccountRequest) (RegisterAccountResponse, error) {
+func (i Interactor) Register(ctx context.Context, req dto.CreateUserRequest) (dto.CreateUserResponse, error) {
 
 	user := entity.User{
 		Username: req.Username,
@@ -27,14 +28,13 @@ func (i Interactor) Register(ctx context.Context, req RegisterAccountRequest) (R
 	//Password := pkg.Hash.HashPassword(user.Password)
 	//user.Password = Password
 
-	createdAccount, err := i.store.CreatedAccount(ctx, user)
+	createdAccount, err := i.store.CreateUser(ctx, user)
 	if err != nil {
-		return RegisterAccountResponse{}, err
+		return dto.CreateUserResponse{}, err
 	}
 
-	return RegisterAccountResponse{User: createdAccount}, nil
+	return dto.CreateUserResponse{User: createdAccount}, nil
 }
 
 // func (i Interactor) login(ctx context.Context, req LoginAccountRequest) (LoginAccountResponse, error) {
-
 // }

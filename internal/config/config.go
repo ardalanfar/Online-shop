@@ -1,10 +1,11 @@
-package conf
+package config
 
+//config system
 type Config struct {
 	DB *DBConfig
 }
 
-//Config Database Postgresql
+//config database postgresql
 type DBConfig struct {
 	Username string
 	Password string
@@ -13,7 +14,7 @@ type DBConfig struct {
 	Port     string
 }
 
-//Set configs
+//set configs
 func GetConfig() *Config {
 	return &Config{
 		DB: &DBConfig{

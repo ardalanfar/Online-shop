@@ -1,13 +1,13 @@
 package service
 
 import (
-	"Farashop/internal/service/account"
+	"Farashop/internal/dto"
 	"context"
 )
 
 //Account contract (interface)
 
 type Account interface {
-	Login(context.Context, account.LoginAccountRequest) (account.LoginAccountResponse, error)
-	Register(context.Context, account.RegisterAccountRequest) (LoginAccountResponse error)
+	Register(context.Context, dto.CreateUserRequest) (dto.CreateUserResponse, error)
+	//Login()
 }

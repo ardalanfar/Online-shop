@@ -2,7 +2,7 @@ package model
 
 import "Farashop/internal/entity"
 
-//User model database
+//user model database
 
 type User struct {
 	ID       uint   `json:"id" gorm:"primary_key"`
