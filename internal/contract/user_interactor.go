@@ -7,7 +7,7 @@ import (
 
 //user intractor contract (interface)
 
-type User interface {
+type UserInteractor interface {
 	Register(context.Context, dto.CreateUserRequest) (dto.CreateUserResponse, error)
-	//Login()
+	Login(context.Context, dto.LoginUserRequest) (dto.CreateUserResponse, error)
 }

@@ -4,4 +4,5 @@ package pkg
 
 type Hash interface {
 	HashPassword(password string) (string, error)
+	DecodePassword(password string) (string error)
 }

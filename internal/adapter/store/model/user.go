@@ -3,7 +3,6 @@ package model
 import "Farashop/internal/entity"
 
 //user model database
-
 type User struct {
 	ID       uint   `json:"id" gorm:"primary_key"`
 	Username string `json:"username"`

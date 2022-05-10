@@ -3,6 +3,7 @@ package main
 import (
 	"Farashop/internal/adapter/store"
 	"Farashop/internal/delivery/http"
+	"Farashop/internal/validator"
 
 	"github.com/labstack/echo/v4"
 )
@@ -16,7 +17,8 @@ func main() {
 	e := echo.New()
 
 	//add routes
-	e.POST("/register", http.CreateUser(connection))
+	e.POST("/register", http.CreateUser(connection, validator.ValidateCreateUsre))
+	e.POST("/login", http.LoginUser(connection))
 
 	//run
 	e.Logger.Fatal(e.Start(":8080"))

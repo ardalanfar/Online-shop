@@ -9,5 +9,5 @@ import (
 
 type UserStore interface {
 	CreateUser(ctx context.Context, user entity.User) (entity.User, error)
-	//EditUser()
+	GetUserByUsername(ctx context.Context, user entity.User) (entity.User, error)
 }

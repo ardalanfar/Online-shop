@@ -3,17 +3,18 @@ package user
 //User intractor (loign , register)
 
 import (
-	"Farashop/internal/contract"
+	"Farashop/internal/adapter/store"
 	"Farashop/internal/dto"
 	"Farashop/internal/entity"
+	"Farashop/internal/pkg"
 	"context"
 )
 
 type Interactor struct {
-	store contract.UserStore
+	store store.DbConn
 }
 
-func New(store contract.UserStore) Interactor {
+func New(store store.DbConn) Interactor {
 	return Interactor{store: store}
 }
 
@@ -27,13 +28,26 @@ func (i Interactor) Register(ctx context.Context, req dto.CreateUserRequest) (dt
 	//Password := pkg.Hash.HashPassword(user.Password)
 	//user.Password = Password
 
-	createdAccount, err := i.store.CreateUser(ctx, user)
+	createdUser, err := i.store.CreateUser(ctx, user)
 	if err != nil {
 		return dto.CreateUserResponse{}, err
 	}
 
-	return dto.CreateUserResponse{User: createdAccount}, nil
+	return dto.CreateUserResponse{User: createdUser}, nil
 }
 
-// func (i Interactor) login(ctx context.Context, req LoginAccountRequest) (LoginAccountResponse, error) {
-// }
+func (i Interactor) Login(ctx context.Context, req dto.LoginUserRequest) (dto.LoginUserResponse, error) {
+	user := entity.User{
+		Username: req.Username,
+	}
+
+	getUsername, err := i.store.GetUserByUsername(ctx, user)
+
+	if err != nil {
+		return dto.LoginUserResponse{}, err
+	}
+
+	pold := getUsername.Password
+	pnew := pkg.Hash.DecodePassword(pold)
+
+}

@@ -16,4 +16,15 @@ type CreateUserResponse struct {
 	User entity.User `json:"user"`
 }
 
+/*--------------------Login----------------------*/
+
+type LoginUserRequest struct {
+	Username string `json:"username"`
+	Password string `json:"password"`
+}
+
+type LoginUserResponse struct {
+	User entity.User `json:"user"`
+}
+
 /*-----------------------------------------------*/
