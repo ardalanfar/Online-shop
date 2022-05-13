@@ -6,4 +6,5 @@ import (
 
 type (
 	ValidateCreateUser func(req dto.CreateUserRequest) error
+	ValidateLoginUser  func(req dto.LoginUserRequest) error
 )

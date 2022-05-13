@@ -12,7 +12,6 @@ import (
 
 func CreateUser(conn store.DbConn, validator contract.ValidateCreateUser) echo.HandlerFunc {
 	return func(c echo.Context) error {
-
 		var req = dto.CreateUserRequest{}
 
 		if err := c.Bind(&req); err != nil {
@@ -24,6 +23,7 @@ func CreateUser(conn store.DbConn, validator contract.ValidateCreateUser) echo.H
 			return echo.NewHTTPError(http.StatusUnprocessableEntity, err.Error())
 		}
 
+		//send service
 		resp, err := user.New(conn).Register(c.Request().Context(), req)
 		if err != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
@@ -36,7 +36,6 @@ func CreateUser(conn store.DbConn, validator contract.ValidateCreateUser) echo.H
 
 func LoginUser(conn store.DbConn) echo.HandlerFunc {
 	return func(c echo.Context) error {
-
 		username := c.Param("username")
 		password := c.Param("password")
 
@@ -53,6 +52,7 @@ func LoginUser(conn store.DbConn) echo.HandlerFunc {
 		// 	return echo.NewHTTPError(http.StatusUnprocessableEntity, err.Error())
 		// }
 
+		//send service
 		resp, err := user.New(conn).Login(c.Request().Context(), req)
 		if err != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())

@@ -12,6 +12,6 @@ func HashPassword(password string) (string, error) {
 	return string(byte), err
 }
 
-func DecodePassword(password string) (string error) {
+// func DecodePassword(password string) (string error) {
 
-}
+// }

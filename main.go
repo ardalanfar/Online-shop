@@ -17,7 +17,7 @@ func main() {
 	e := echo.New()
 
 	//add routes
-	e.POST("/register", http.CreateUser(connection, validator.ValidateCreateUsre))
+	e.POST("/register", http.CreateUser(connection, validator.ValidateCreateUser))
 	e.POST("/login", http.LoginUser(connection))
 
 	//run

@@ -3,18 +3,17 @@ package user
 //User intractor (loign , register)
 
 import (
-	"Farashop/internal/adapter/store"
+	"Farashop/internal/contract"
 	"Farashop/internal/dto"
 	"Farashop/internal/entity"
-	"Farashop/internal/pkg"
 	"context"
 )
 
 type Interactor struct {
-	store store.DbConn
+	store contract.UserStore
 }
 
-func New(store store.DbConn) Interactor {
+func New(store contract.UserStore) Interactor {
 	return Interactor{store: store}
 }
 
@@ -48,6 +47,8 @@ func (i Interactor) Login(ctx context.Context, req dto.LoginUserRequest) (dto.Lo
 	}
 
 	pold := getUsername.Password
-	pnew := pkg.Hash.DecodePassword(pold)
+	//pnew := pkg.Hash.DecodePassword(pold)
+	_ = pold
 
+	return dto.LoginUserResponse{}, err
 }
