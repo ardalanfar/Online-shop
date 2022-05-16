@@ -12,8 +12,8 @@ func (s DbConn) CreateUser(ctx context.Context, user entity.User) (entity.User, 
 	u := model.MapFromUserEntity(user)
 
 	//cheek username and email
-	errcheek := s.Db.WithContext(ctx).First(&user, "username = ? OR email = ?").Error
-	if errcheek != nil {
+	errcheek := s.Db.WithContext(ctx).Where("username = ? OR email = ?", u.Username, u.Email).First(&u).Error
+	if errcheek == nil {
 		return entity.User{}, errcheek
 	}
 

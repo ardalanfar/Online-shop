@@ -3,7 +3,6 @@ package main
 import (
 	"Farashop/internal/adapter/store"
 	"Farashop/internal/delivery/http"
-	"Farashop/internal/validator"
 
 	"github.com/labstack/echo/v4"
 )
@@ -11,16 +10,15 @@ import (
 func main() {
 
 	//connect to database and auto migrate
-	connection := store.New()
+	conn := store.New()
 
 	//setup http server
 	e := echo.New()
 
 	//add routes
-	e.POST("/register", http.CreateUser(connection, validator.ValidateCreateUser))
-	e.POST("/login", http.LoginUser(connection))
+	e.POST("/register", http.CreateUser(conn))
+	e.POST("/login", http.LoginUser(conn))
 
 	//run
-	e.Logger.Fatal(e.Start(":8080"))
-
+	e.Logger.Fatal(e.Start(":8022"))
 }
