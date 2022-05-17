@@ -24,7 +24,7 @@ type LoginUserRequest struct {
 }
 
 type LoginUserResponse struct {
-	User entity.User `json:"user"`
+	Result bool `json:"result"`
 }
 
 /*-----------------------------------------------*/

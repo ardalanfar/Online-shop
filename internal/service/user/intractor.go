@@ -6,6 +6,7 @@ import (
 	"Farashop/internal/contract"
 	"Farashop/internal/dto"
 	"Farashop/internal/entity"
+	"Farashop/internal/pkg/hash"
 	"context"
 )
 
@@ -24,8 +25,11 @@ func (i Interactor) Register(ctx context.Context, req dto.CreateUserRequest) (dt
 		Password: req.Password,
 	}
 
-	//Password := pkg.Hash.HashPassword(user.Password)
-	//user.Password = Password
+	Password, errhash := hash.HashPassword(user.Password)
+	if errhash != nil {
+		return dto.CreateUserResponse{}, errhash
+	}
+	user.Password = Password
 
 	createdUser, err := i.store.CreateUser(ctx, user)
 	if err != nil {
@@ -38,17 +42,16 @@ func (i Interactor) Register(ctx context.Context, req dto.CreateUserRequest) (dt
 func (i Interactor) Login(ctx context.Context, req dto.LoginUserRequest) (dto.LoginUserResponse, error) {
 	user := entity.User{
 		Username: req.Username,
+		Password: req.Password,
 	}
 
-	getUsername, err := i.store.GetUserByUsername(ctx, user)
+	getInfo, errInfo := i.store.GetUserByUsername(ctx, user)
 
-	if err != nil {
-		return dto.LoginUserResponse{}, err
+	if errInfo != nil {
+		return dto.LoginUserResponse{}, errInfo
 	}
 
-	pold := getUsername.Password
-	//pnew := pkg.Hash.DecodePassword(pold)
-	_ = pold
+	res := hash.CheckPasswordHash(user.Password, getInfo.Password)
 
-	return dto.LoginUserResponse{}, err
+	return dto.LoginUserResponse{Result: res}, nil
 }
