@@ -16,19 +16,20 @@ func CreateUser(conn store.DbConn, validator contract.ValidateCreateUser) echo.H
 
 		var req = dto.CreateUserRequest{}
 
-		if err := json.NewDecoder(c.Request().Body).Decode(&req); err != nil {
-			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		//bind user information
+		if errbind := json.NewDecoder(c.Request().Body).Decode(&req); errbind != nil {
+			return echo.NewHTTPError(http.StatusBadRequest, errbind.Error())
 		}
 
-		// //validat
-		if err := validator(req); err != nil {
-			return echo.NewHTTPError(http.StatusUnprocessableEntity, err.Error())
+		//validat information
+		if errvalidat := validator(req); errvalidat != nil {
+			return echo.NewHTTPError(http.StatusUnprocessableEntity, errvalidat.Error())
 		}
 
-		//send usecase
-		resp, err := user.New(conn).Register(c.Request().Context(), req)
-		if err != nil {
-			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		//send service
+		resp, errservice := user.New(conn).Register(c.Request().Context(), req)
+		if errservice != nil {
+			return echo.NewHTTPError(http.StatusInternalServerError, errservice.Error())
 		}
 
 		//return ui
@@ -36,21 +37,25 @@ func CreateUser(conn store.DbConn, validator contract.ValidateCreateUser) echo.H
 	}
 }
 
-func LoginUser(conn store.DbConn) echo.HandlerFunc {
+func LoginUser(conn store.DbConn, validator contract.ValidateLoginUser) echo.HandlerFunc {
 	return func(c echo.Context) error {
 
 		var req = dto.LoginUserRequest{}
 
-		if err := json.NewDecoder(c.Request().Body).Decode(&req); err != nil {
-			return echo.NewHTTPError(http.StatusBadRequest, err.Error())
+		//bind user information
+		if errbind := json.NewDecoder(c.Request().Body).Decode(&req); errbind != nil {
+			return echo.NewHTTPError(http.StatusBadRequest, errbind.Error())
 		}
 
-		//validat
+		//validat information
+		if errvalidat := validator(req); errvalidat != nil {
+			return echo.NewHTTPError(http.StatusUnprocessableEntity, errvalidat.Error())
+		}
 
 		//send service
-		resp, err := user.New(conn).Login(c.Request().Context(), req)
-		if err != nil {
-			return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+		resp, errservice := user.New(conn).Login(c.Request().Context(), req)
+		if errservice != nil {
+			return echo.NewHTTPError(http.StatusInternalServerError, errservice.Error())
 		}
 
 		//return ui

@@ -18,8 +18,8 @@ func main() {
 
 	//add routes
 	e.POST("/register", http.CreateUser(conn, validator.ValidateCreateUser))
-	e.POST("/login", http.LoginUser(conn))
+	e.POST("/login", http.LoginUser(conn, validator.ValidateLoginUser))
 
 	//run
-	e.Logger.Fatal(e.Start(":8016"))
+	e.Logger.Fatal(e.Start(":8091"))
 }

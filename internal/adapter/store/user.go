@@ -29,10 +29,10 @@ func (s DbConn) CreateUser(ctx context.Context, user entity.User) (entity.User, 
 func (s DbConn) GetUserByUsername(ctx context.Context, user entity.User) (entity.User, error) {
 	u := model.MapFromUserEntity(user)
 
-	//get id and password and username by username
-	err := s.Db.WithContext(ctx).Select("id", "password", "username").First(&u)
+	//get id,password,username by username
+	err := s.Db.WithContext(ctx).Select("id", "password", "username").Where("username = ?", u.Username).First(&u).Error
 	if err != nil {
-		return entity.User{}, err.Error
+		return entity.User{}, err
 	}
 
 	return model.MapToUserEntity(u), nil

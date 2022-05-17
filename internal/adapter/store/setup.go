@@ -24,12 +24,14 @@ func New() DbConn {
 		config.DB.Password,
 		config.DB.Dbname,
 	)
-	//connect db
+
+	//connect database
 	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic("Failed to connect to database!")
 	}
-	//migrate db
+
+	//migrate model
 	if errm := database.AutoMigrate(&model.User{}, &model.Access{}); errm != nil {
 		panic("Failed to auto migrate database!")
 	}
@@ -39,6 +41,6 @@ func New() DbConn {
 		panic("Failed to Insert Admin")
 	}
 
-	//return connection
+	//return connection database
 	return DbConn{Db: database}
 }

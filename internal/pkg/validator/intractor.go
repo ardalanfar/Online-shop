@@ -7,6 +7,8 @@ import (
 	"github.com/go-ozzo/ozzo-validation/is"
 )
 
+//Intractor package validator
+
 func ValidateCreateUser(req dto.CreateUserRequest) error {
 	return validation.ValidateStruct(&req,
 		validation.Field(&req.Username, validation.Required),
@@ -15,6 +17,9 @@ func ValidateCreateUser(req dto.CreateUserRequest) error {
 	)
 }
 
-// func ValidateLoginUser(req dto.LoginUserRequest) error {
-
-// }
+func ValidateLoginUser(req dto.LoginUserRequest) error {
+	return validation.ValidateStruct(&req,
+		validation.Field(&req.Username, validation.Required),
+		validation.Field(&req.Password, validation.Required),
+	)
+}

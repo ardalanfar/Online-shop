@@ -14,7 +14,7 @@ type DBConfig struct {
 	Port     string
 }
 
-//set configs
+//set config app
 func GetConfig() *Config {
 	return &Config{
 		DB: &DBConfig{

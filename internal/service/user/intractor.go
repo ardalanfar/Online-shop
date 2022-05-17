@@ -46,12 +46,11 @@ func (i Interactor) Login(ctx context.Context, req dto.LoginUserRequest) (dto.Lo
 	}
 
 	getInfo, errInfo := i.store.GetUserByUsername(ctx, user)
-
 	if errInfo != nil {
 		return dto.LoginUserResponse{}, errInfo
 	}
 
 	res := hash.CheckPasswordHash(user.Password, getInfo.Password)
 
-	return dto.LoginUserResponse{Result: res}, nil
+	return dto.LoginUserResponse{Result: res, User: getInfo}, nil
 }

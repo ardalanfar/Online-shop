@@ -5,7 +5,7 @@ import (
 	"context"
 )
 
-//user intractor contract (interface)
+//user contract (interface)
 
 type UserInteractor interface {
 	Register(context.Context, dto.CreateUserRequest) (dto.CreateUserResponse, error)
