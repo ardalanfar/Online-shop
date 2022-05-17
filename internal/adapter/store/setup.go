@@ -30,8 +30,13 @@ func New() DbConn {
 		panic("Failed to connect to database!")
 	}
 	//migrate db
-	if aErr := database.AutoMigrate(&model.User{}); aErr != nil {
+	if errm := database.AutoMigrate(&model.User{}, &model.Access{}); errm != nil {
 		panic("Failed to auto migrate database!")
+	}
+
+	//create admin system
+	if errc := InsertAdmin(database); errc != nil {
+		panic("Failed to Insert Admin")
 	}
 
 	//return connection

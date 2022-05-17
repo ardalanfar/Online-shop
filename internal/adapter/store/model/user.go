@@ -4,10 +4,11 @@ import "Farashop/internal/entity"
 
 //user model database
 type User struct {
-	ID       uint   `json:"id" gorm:"primary_key,serializer:json"`
-	Username string `json:"username"`
-	Email    string `json:"email"`
-	Password string `json:"password"`
+	ID        uint   `json:"id" gorm:"primary_key,serializer:json"`
+	Username  string `json:"username"`
+	Email     string `json:"email"`
+	Password  string `json:"password"`
+	ID_access uint   `json:"ID_access"`
 }
 
 func MapFromUserEntity(user entity.User) User {

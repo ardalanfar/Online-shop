@@ -20,5 +20,5 @@ func main() {
 	e.POST("/login", http.LoginUser(conn))
 
 	//run
-	e.Logger.Fatal(e.Start(":8022"))
+	e.Logger.Fatal(e.Start(":8010"))
 }

@@ -4,7 +4,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-//Intractor Hash
+//Intractor package Hash
 
 func HashPassword(password string) (string, error) {
 
