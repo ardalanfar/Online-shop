@@ -4,6 +4,7 @@ import (
 	"Farashop/internal/adapter/store"
 	"Farashop/internal/contract"
 	"Farashop/internal/dto"
+	"Farashop/internal/pkg/auth"
 	"Farashop/internal/service/user"
 	"encoding/json"
 	"net/http"
@@ -56,6 +57,14 @@ func LoginUser(conn store.DbConn, validator contract.ValidateLoginUser) echo.Han
 		resp, errservice := user.New(conn).Login(c.Request().Context(), req)
 		if errservice != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, errservice.Error())
+		}
+
+		//call pkg auth(create token and cookie)
+		if resp.Result {
+			err := auth.GenerateTokensAndSetCookies(resp, c)
+			if err != nil {
+				return echo.NewHTTPError(http.StatusUnauthorized, "Wellcom"+resp.User.Username)
+			}
 		}
 
 		//return ui

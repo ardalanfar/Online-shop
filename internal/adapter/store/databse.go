@@ -37,7 +37,7 @@ func New() DbConn {
 	}
 
 	//create admin system
-	if errc := InsertAdmin(database); errc != nil {
+	if errc := InsertDefultAdmin(database); errc != nil {
 		panic("Failed to Insert Admin")
 	}
 

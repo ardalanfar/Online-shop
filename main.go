@@ -20,6 +20,18 @@ func main() {
 	e.POST("/register", http.CreateUser(conn, validator.ValidateCreateUser))
 	e.POST("/login", http.LoginUser(conn, validator.ValidateLoginUser))
 
-	//run
-	e.Logger.Fatal(e.Start(":8091"))
+	// Defining of the admin router group.
+	//adminGroup := e.Group("/admin")
+
+	// Defining of the user router group.
+	//userGroup := e.Group("/user")
+
+	// Router for "/admin" path.
+	//adminGroup.GET("/main",)
+
+	// Router for "/user" path.
+	//userGroup.GET("/main",)
+
+	// Starting the server.
+	e.Logger.Fatal(e.Start(":8072"))
 }
