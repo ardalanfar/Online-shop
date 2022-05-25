@@ -2,22 +2,24 @@ package store
 
 import (
 	"Farashop/internal/adapter/store/model"
+	"Farashop/pkg/hash"
 
 	"gorm.io/gorm"
 )
 
 func InsertDefultAdmin(Db *gorm.DB) error {
-	user := model.User{Username: "admin", Email: "admin@yahoo.com", Password: "123456", ID_access: 1}
-	access := []model.Access{{Access: 1, Describe: "Admin"}, {Access: 2, Describe: "Member"}}
-	name := ""
-	//check admin
+	user := model.User{}
 
-	Db.Where("username = ?", user.Username).First(&name)
-	if name != "" {
+	//check admin
+	if res := Db.Where("username = ?", "admin").Find(&user); res.RowsAffected != 0 {
 		return nil
 	}
 
 	//create admin system
+	pass, _ := hash.HashPassword("123456")
+	user = model.User{Username: "admin", Email: "admin@yahoo.com", Password: pass, ID_access: 1}
+	access := []model.Access{{Access: 1, Describe: "Admin"}, {Access: 2, Describe: "Member"}}
+
 	resultUser := Db.Create(&user).Error
 	if resultUser != nil {
 		return resultUser
@@ -29,7 +31,3 @@ func InsertDefultAdmin(Db *gorm.DB) error {
 	}
 	return nil
 }
-
-// func InsertDefultProduct(Db *gorm.DB) error {
-
-// }

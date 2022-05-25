@@ -13,8 +13,8 @@ type CreateUserRequest struct {
 }
 
 type CreateUserResponse struct {
-	//Result bool `json:"result"`
-	User entity.User `json:"user"`
+	Result bool        `json:"result"`
+	User   entity.User `json:"user"`
 }
 
 /*--------------------Login----------------------*/

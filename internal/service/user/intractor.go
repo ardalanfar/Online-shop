@@ -6,7 +6,7 @@ import (
 	"Farashop/internal/contract"
 	"Farashop/internal/dto"
 	"Farashop/internal/entity"
-	"Farashop/internal/pkg/hash"
+	"Farashop/pkg/hash"
 	"context"
 	"fmt"
 )
@@ -29,14 +29,14 @@ func (i Interactor) Register(ctx context.Context, req dto.CreateUserRequest) (dt
 	//create hash password
 	Password, errhash := hash.HashPassword(user.Password)
 	if errhash != nil {
-		return dto.CreateUserResponse{}, errhash
+		return dto.CreateUserResponse{Result: false}, errhash
 	}
 	user.Password = Password
 
 	//create user
 	createdUser, errCrate := i.store.CreateUser(ctx, user)
 	if errCrate != nil {
-		return dto.CreateUserResponse{}, errCrate
+		return dto.CreateUserResponse{Result: false}, errCrate
 	}
 
 	//return

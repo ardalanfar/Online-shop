@@ -4,8 +4,8 @@ import (
 	"Farashop/internal/adapter/store"
 	"Farashop/internal/contract"
 	"Farashop/internal/dto"
-	"Farashop/internal/pkg/auth"
 	"Farashop/internal/service/user"
+	"Farashop/pkg/auth"
 	"encoding/json"
 	"net/http"
 

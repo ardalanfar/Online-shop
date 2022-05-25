@@ -36,7 +36,7 @@ func New() DbConn {
 		panic("Failed to auto migrate database!")
 	}
 
-	//create admin system
+	//create information default (for test)
 	if errc := InsertDefultAdmin(database); errc != nil {
 		panic("Failed to Insert Admin")
 	}

@@ -3,7 +3,7 @@ package main
 import (
 	"Farashop/internal/adapter/store"
 	"Farashop/internal/delivery/http"
-	"Farashop/internal/pkg/validator"
+	"Farashop/pkg/validator"
 
 	"github.com/labstack/echo/v4"
 )
@@ -33,5 +33,5 @@ func main() {
 	//userGroup.GET("/main",)
 
 	// Starting the server.
-	e.Logger.Fatal(e.Start(":8072"))
+	e.Logger.Fatal(e.Start(":8044"))
 }
