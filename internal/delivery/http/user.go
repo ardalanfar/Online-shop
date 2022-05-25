@@ -4,6 +4,7 @@ import (
 	"Farashop/internal/adapter/store"
 	"Farashop/internal/contract"
 	"Farashop/internal/dto"
+	"Farashop/internal/pkg/customerror"
 	"Farashop/internal/service/user"
 	"Farashop/pkg/auth"
 	"encoding/json"
@@ -28,13 +29,13 @@ func CreateUser(conn store.DbConn, validator contract.ValidateCreateUser) echo.H
 		}
 
 		//send service
-		resp, errservice := user.New(conn).Register(c.Request().Context(), req)
+		_, errservice := user.New(conn).Register(c.Request().Context(), req)
 		if errservice != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, errservice.Error())
 		}
 
 		//return ui
-		return c.JSON(http.StatusOK, resp)
+		return c.JSON(http.StatusOK, customerror.InfoSuccessfully())
 	}
 }
 

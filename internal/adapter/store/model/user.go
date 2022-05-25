@@ -8,7 +8,7 @@ type User struct {
 	Username  string `json:"username"`
 	Email     string `json:"email"`
 	Password  string `json:"password"`
-	ID_access uint   `json:"ID_access"`
+	ID_access uint   `json:"id_access"`
 }
 
 func MapFromUserEntity(user entity.User) User {
