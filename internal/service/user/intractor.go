@@ -8,7 +8,6 @@ import (
 	"Farashop/internal/entity"
 	"Farashop/pkg/hash"
 	"context"
-	"fmt"
 )
 
 type Interactor struct {
@@ -57,10 +56,10 @@ func (i Interactor) Login(ctx context.Context, req dto.LoginUserRequest) (dto.Lo
 
 	//check password with username
 	checkpass := hash.CheckPasswordHash(user.Password, getInfo.Password)
-	if !checkpass {
-		return dto.LoginUserResponse{Result: checkpass, User: getInfo}, fmt.Errorf("error check password")
+	if checkpass != nil {
+		return dto.LoginUserResponse{Result: false, User: getInfo}, checkpass
 	}
 
 	//return
-	return dto.LoginUserResponse{Result: checkpass, User: getInfo}, nil
+	return dto.LoginUserResponse{Result: true, User: getInfo}, nil
 }

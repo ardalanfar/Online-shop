@@ -33,5 +33,5 @@ func main() {
 	//userGroup.GET("/main",)
 
 	// Starting the server.
-	e.Logger.Fatal(e.Start(":8049"))
+	e.Logger.Fatal(e.Start(":8031"))
 }

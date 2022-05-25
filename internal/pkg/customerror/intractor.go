@@ -1,14 +1,14 @@
 package customerror
 
 type Errorfarashop interface {
-	InputData() string
+	SendMsg() string
 }
 
 type ErrorField struct {
 	Msg string
 }
 
-func (err ErrorField) InputData() string {
+func (err ErrorField) SendMsg() string {
 	return err.Msg
 }
 
@@ -22,7 +22,7 @@ func InfoNotValid() Errorfarashop {
 	return ErrorField{Msg: "The information entered is not valid"}
 }
 
-//Information successfully recorded
-func InfoSuccessfully() Errorfarashop {
-	return ErrorField{Msg: "Information successfully recorded"}
+//successfully
+func Successfully() Errorfarashop {
+	return ErrorField{Msg: "successfully"}
 }
