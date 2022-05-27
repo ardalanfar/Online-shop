@@ -4,9 +4,9 @@ import (
 	"Farashop/internal/adapter/store"
 	"Farashop/internal/contract"
 	"Farashop/internal/dto"
-	"Farashop/internal/pkg/customerror"
 	"Farashop/internal/service/user"
 	"Farashop/pkg/auth"
+	"Farashop/pkg/customerror"
 	"encoding/json"
 	"net/http"
 
@@ -24,7 +24,7 @@ func CreateUser(conn store.DbConn, validator contract.ValidateCreateUser) echo.H
 		}
 
 		//validat information
-		if errvalidat := validator(req); errvalidat != nil {
+		if errvalidat := validator(c.Request().Context(), req); errvalidat != nil {
 			return echo.NewHTTPError(http.StatusUnprocessableEntity, customerror.InfoNotValid())
 		}
 
@@ -50,7 +50,7 @@ func LoginUser(conn store.DbConn, validator contract.ValidateLoginUser) echo.Han
 		}
 
 		//validat information
-		if errvalidat := validator(req); errvalidat != nil {
+		if errvalidat := validator(c.Request().Context(), req); errvalidat != nil {
 			return echo.NewHTTPError(http.StatusUnprocessableEntity, customerror.InfoNotValid())
 		}
 

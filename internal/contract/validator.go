@@ -2,11 +2,12 @@ package contract
 
 import (
 	"Farashop/internal/dto"
+	"context"
 )
 
 //validator Contract (interface)
 
 type (
-	ValidateCreateUser func(req dto.CreateUserRequest) error
-	ValidateLoginUser  func(req dto.LoginUserRequest) error
+	ValidateCreateUser func(ctx context.Context, req dto.CreateUserRequest) error
+	ValidateLoginUser  func(ctx context.Context, req dto.LoginUserRequest) error
 )
