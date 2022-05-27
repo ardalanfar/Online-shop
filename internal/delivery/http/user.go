@@ -22,18 +22,15 @@ func CreateUser(conn store.DbConn, validator contract.ValidateCreateUser) echo.H
 		if errbind := json.NewDecoder(c.Request().Body).Decode(&req); errbind != nil {
 			return echo.NewHTTPError(http.StatusBadRequest, errbind.Error())
 		}
-
 		//validat information
 		if errvalidat := validator(c.Request().Context(), req); errvalidat != nil {
 			return echo.NewHTTPError(http.StatusUnprocessableEntity, customerror.InfoNotValid())
 		}
-
 		//send service
 		_, errservice := user.New(conn).Register(c.Request().Context(), req)
 		if errservice != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, customerror.InfoIncorrect())
 		}
-
 		//return ui
 		return c.JSON(http.StatusOK, customerror.Successfully())
 	}
@@ -48,18 +45,15 @@ func LoginUser(conn store.DbConn, validator contract.ValidateLoginUser) echo.Han
 		if errbind := json.NewDecoder(c.Request().Body).Decode(&req); errbind != nil {
 			return echo.NewHTTPError(http.StatusBadRequest, errbind.Error())
 		}
-
 		//validat information
 		if errvalidat := validator(c.Request().Context(), req); errvalidat != nil {
 			return echo.NewHTTPError(http.StatusUnprocessableEntity, customerror.InfoNotValid())
 		}
-
 		//send service
 		resp, errservice := user.New(conn).Login(c.Request().Context(), req)
 		if errservice != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, customerror.InfoIncorrect())
 		}
-
 		//call pkg auth(create token and cookie)
 		if resp.Result {
 			err := auth.GenerateTokensAndSetCookies(resp, c)
@@ -67,7 +61,6 @@ func LoginUser(conn store.DbConn, validator contract.ValidateLoginUser) echo.Han
 				return echo.NewHTTPError(http.StatusUnauthorized, "Wellcom"+resp.User.Username)
 			}
 		}
-
 		//return ui
 		return c.JSON(http.StatusOK, customerror.Successfully())
 	}

@@ -17,7 +17,7 @@ func doesUserExist(ctx context.Context, store contract.ValidatorStore) validatio
 			return fmt.Errorf("%v", err)
 		}
 		if !ok {
-			return fmt.Errorf("user: %d does not exist", username)
+			return fmt.Errorf("user: %s does not exist", username)
 		}
 
 		return nil

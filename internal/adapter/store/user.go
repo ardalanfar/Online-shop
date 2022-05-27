@@ -16,7 +16,6 @@ func (s DbConn) CreateUser(ctx context.Context, user entity.User) (entity.User, 
 	if errcheek == nil {
 		return entity.User{}, errcheek
 	}
-
 	//create user
 	errcreate := s.Db.WithContext(ctx).Create(&u).Error
 	if errcreate != nil {

@@ -14,7 +14,6 @@ func InsertDefultAdmin(Db *gorm.DB) error {
 	if res := Db.Where("username = ?", "admin").Find(&user); res.RowsAffected != 0 {
 		return nil
 	}
-
 	//create admin system
 	pass, _ := hash.HashPassword("123456")
 	user = model.User{Username: "admin", Email: "admin@yahoo.com", Password: pass, ID_access: 1}
@@ -24,7 +23,6 @@ func InsertDefultAdmin(Db *gorm.DB) error {
 	if resultUser != nil {
 		return resultUser
 	}
-
 	//build ‌admin access level
 	if resultAccess := Db.Create(&access).Error; resultAccess != nil {
 		return resultAccess
