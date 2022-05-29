@@ -1,14 +1,16 @@
-package store
+package public_store
 
 //Account Store intractor
 
 import (
+	"Farashop/internal/adapter/store"
 	"Farashop/internal/adapter/store/model"
+
 	"Farashop/internal/entity"
 	"context"
 )
 
-func (s DbConn) CreateUser(ctx context.Context, user entity.User) (entity.User, error) {
+func (s store.DbConn) CreateUser(ctx context.Context, user entity.User) (entity.User, error) {
 	u := model.MapFromUserEntity(user)
 
 	//cheek username and email in DB
@@ -25,7 +27,7 @@ func (s DbConn) CreateUser(ctx context.Context, user entity.User) (entity.User, 
 	return model.MapToUserEntity(u), nil
 }
 
-func (s DbConn) GetUserByUsername(ctx context.Context, user entity.User) (entity.User, error) {
+func (s store.DbConn) GetUserByUsername(ctx context.Context, user entity.User) (entity.User, error) {
 	u := model.MapFromUserEntity(user)
 
 	//get id,password,username by username

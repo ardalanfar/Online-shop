@@ -1,10 +1,10 @@
-package dto
+package public_dto
 
 import "Farashop/internal/entity"
 
 //User Contract Interactor Request And Response (Struct)
 
-/*-----------------Create----------------------*/
+/*-----------------Create user----------------------*/
 
 type CreateUserRequest struct {
 	Username string `json:"username"`
@@ -17,7 +17,7 @@ type CreateUserResponse struct {
 	User   entity.User `json:"user"`
 }
 
-/*--------------------Login----------------------*/
+/*--------------------Login user----------------------*/
 
 type LoginUserRequest struct {
 	Username string `json:"username"`
@@ -29,4 +29,4 @@ type LoginUserResponse struct {
 	User   entity.User `json:"user"`
 }
 
-/*-----------------------------------------------*/
+/*-----------------------------------------------------*/

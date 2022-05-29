@@ -24,7 +24,7 @@ func InfoNotValid() error {
 
 //Successfully
 func Successfully() error {
-	return ErrorField{Msg: "successfully recorded"}
+	return ErrorField{Msg: "successfully"}
 }
 
 //Unsuccessful

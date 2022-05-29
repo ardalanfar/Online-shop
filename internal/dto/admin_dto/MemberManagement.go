@@ -1,4 +1,4 @@
-package admin
+package admin_dto
 
 import "Farashop/internal/entity"
 

@@ -1,10 +1,10 @@
-package http
+package public_http
 
 import (
 	"Farashop/internal/adapter/store"
 	"Farashop/internal/contract"
-	"Farashop/internal/dto"
-	"Farashop/internal/service/user"
+	"Farashop/internal/dto/public_dto"
+	"Farashop/internal/service/public_service"
 	"Farashop/pkg/auth"
 	"Farashop/pkg/customerror"
 	"encoding/json"
@@ -16,7 +16,7 @@ import (
 func CreateUser(conn store.DbConn, validator contract.ValidateCreateUser) echo.HandlerFunc {
 	return func(c echo.Context) error {
 
-		var req = dto.CreateUserRequest{}
+		var req = public_dto.CreateUserRequest{}
 
 		//bind user information
 		if errbind := json.NewDecoder(c.Request().Body).Decode(&req); errbind != nil {
@@ -27,7 +27,7 @@ func CreateUser(conn store.DbConn, validator contract.ValidateCreateUser) echo.H
 			return echo.NewHTTPError(http.StatusUnprocessableEntity, customerror.InfoNotValid())
 		}
 		//send service
-		_, errservice := user.New(conn).Register(c.Request().Context(), req)
+		_, errservice := public_service.New(conn).Register(c.Request().Context(), req)
 		if errservice != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, customerror.InfoIncorrect())
 		}
@@ -39,7 +39,7 @@ func CreateUser(conn store.DbConn, validator contract.ValidateCreateUser) echo.H
 func LoginUser(conn store.DbConn, validator contract.ValidateLoginUser) echo.HandlerFunc {
 	return func(c echo.Context) error {
 
-		var req = dto.LoginUserRequest{}
+		var req = public_dto.LoginUserRequest{}
 
 		//bind user information
 		if errbind := json.NewDecoder(c.Request().Body).Decode(&req); errbind != nil {
@@ -50,7 +50,7 @@ func LoginUser(conn store.DbConn, validator contract.ValidateLoginUser) echo.Han
 			return echo.NewHTTPError(http.StatusUnprocessableEntity, customerror.InfoNotValid())
 		}
 		//send service
-		resp, errservice := user.New(conn).Login(c.Request().Context(), req)
+		resp, errservice := public_service.New(conn).Login(c.Request().Context(), req)
 		if errservice != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, customerror.InfoIncorrect())
 		}
