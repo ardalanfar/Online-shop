@@ -2,12 +2,12 @@ package store
 
 import (
 	"Farashop/internal/adapter/store/model"
-	"Farashop/pkg/hash"
+	"Farashop/pkg/encrypt"
 
 	"gorm.io/gorm"
 )
 
-func InsertDefultAdmin(Db *gorm.DB) error {
+func InsertSeedAdmin(Db *gorm.DB) error {
 	user := model.User{}
 
 	//check admin
@@ -15,7 +15,7 @@ func InsertDefultAdmin(Db *gorm.DB) error {
 		return nil
 	}
 	//create admin system
-	pass, _ := hash.HashPassword("123456")
+	pass, _ := encrypt.HashPassword("123456")
 	user = model.User{Username: "admin", Email: "admin@yahoo.com", Password: pass, ID_access: 1}
 	access := []model.Access{{Access: 1, Describe: "Admin"}, {Access: 2, Describe: "Member"}}
 

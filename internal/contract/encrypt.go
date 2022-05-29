@@ -1,8 +1,8 @@
 package contract
 
-//Hash Contract (interface)
+//Encrypt Contract (interface)
 
-type Hash interface {
+type Encrypt interface {
 	HashPassword(password string) (string, error)
 	CheckPasswordHash(password, hash string) bool
 }

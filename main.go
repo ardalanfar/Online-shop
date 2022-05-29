@@ -3,6 +3,7 @@ package main
 import (
 	"Farashop/internal/adapter/store"
 	"Farashop/internal/delivery/http"
+	"Farashop/internal/delivery/http/admin"
 	"Farashop/internal/pkg/validator"
 
 	"github.com/labstack/echo/v4"
@@ -17,21 +18,22 @@ func main() {
 	e := echo.New()
 
 	//add routes
-	e.POST("/register", http.CreateUser(conn, validator.ValidateCreateUser))
-	e.POST("/login", http.LoginUser(conn, validator.ValidateLoginUser))
+	e.POST("/register", http.CreateUser(conn, validator.ValidateCreateUser(conn)))
+	e.POST("/login", http.LoginUser(conn, validator.ValidateLoginUser(conn)))
 
-	// Defining of the admin router group.
-	//adminGroup := e.Group("/admin")
+	//Admin Group
+	adminGroup := e.Group("/admin")
 
-	// Defining of the user router group.
+	/*------------------------------------------------------------*/
+	MemberManagement := adminGroup.Group("/MemberManagement")
+	MemberManagement.GET("/ShowMembers", admin.ShowMembers(conn))
+
+	/*------------------------------------------------------------*/
+
+	/*------------------------------------------------------------*/
+
 	//userGroup := e.Group("/user")
 
-	// Router for "/admin" path.
-	//adminGroup.GET("/main",)
-
-	// Router for "/user" path.
-	//userGroup.GET("/main",)
-
-	// Starting the server.
+	//starting the server
 	e.Logger.Fatal(e.Start(":8031"))
 }

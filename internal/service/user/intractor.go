@@ -6,7 +6,7 @@ import (
 	"Farashop/internal/contract"
 	"Farashop/internal/dto"
 	"Farashop/internal/entity"
-	"Farashop/pkg/hash"
+	"Farashop/pkg/encrypt"
 	"context"
 )
 
@@ -26,7 +26,7 @@ func (i Interactor) Register(ctx context.Context, req dto.CreateUserRequest) (dt
 	}
 
 	//create hash password
-	Password, errhash := hash.HashPassword(user.Password)
+	Password, errhash := encrypt.HashPassword(user.Password)
 	if errhash != nil {
 		return dto.CreateUserResponse{Result: false}, errhash
 	}
@@ -55,7 +55,7 @@ func (i Interactor) Login(ctx context.Context, req dto.LoginUserRequest) (dto.Lo
 	}
 
 	//check password with username
-	checkpass := hash.CheckPasswordHash(user.Password, getInfo.Password)
+	checkpass := encrypt.CheckPasswordHash(user.Password, getInfo.Password)
 	if checkpass != nil {
 		return dto.LoginUserResponse{Result: false, User: getInfo}, checkpass
 	}
