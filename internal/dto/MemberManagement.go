@@ -1,4 +1,6 @@
-package admin_dto
+package dto
+
+//Member Management Contract Interactor Request And Response (Struct)
 
 import "Farashop/internal/entity"
 
@@ -16,7 +18,8 @@ type DeleteMemberRequest struct {
 	ID uint `json:"id"`
 }
 
-type DeleteMemberResponse struct{}
+type DeleteMemberResponse struct {
+	Result bool `json:"result"`
+}
 
-/*------------------------------------------------*/
 /*------------------------------------------------*/

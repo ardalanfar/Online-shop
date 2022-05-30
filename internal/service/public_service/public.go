@@ -4,7 +4,7 @@ package public_service
 
 import (
 	"Farashop/internal/contract"
-	"Farashop/internal/dto/public_dto"
+	"Farashop/internal/dto"
 	"Farashop/internal/entity"
 	"Farashop/pkg/encrypt"
 	"context"
@@ -18,7 +18,7 @@ func New(store contract.UserStore) Interactor {
 	return Interactor{store: store}
 }
 
-func (i Interactor) Register(ctx context.Context, req public_dto.CreateUserRequest) (public_dto.CreateUserResponse, error) {
+func (i Interactor) Register(ctx context.Context, req dto.CreateUserRequest) (dto.CreateUserResponse, error) {
 	user := entity.User{
 		Username: req.Username,
 		Email:    req.Email,
@@ -28,21 +28,20 @@ func (i Interactor) Register(ctx context.Context, req public_dto.CreateUserReque
 	//create hash password
 	Password, errhash := encrypt.HashPassword(user.Password)
 	if errhash != nil {
-		return public_dto.CreateUserResponse{Result: false}, errhash
+		return dto.CreateUserResponse{Result: false}, errhash
 	}
 	user.Password = Password
 
 	//create user
-	createdUser, errCrate := i.store.CreateUser(ctx, user)
+	createdUser, errCrate := i.store.Register(ctx, user)
 	if errCrate != nil {
-		return public_dto.CreateUserResponse{Result: false}, errCrate
+		return dto.CreateUserResponse{Result: false}, errCrate
 	}
-
 	//return
-	return public_dto.CreateUserResponse{User: createdUser}, nil
+	return dto.CreateUserResponse{User: createdUser}, nil
 }
 
-func (i Interactor) Login(ctx context.Context, req public_dto.LoginUserRequest) (public_dto.LoginUserResponse, error) {
+func (i Interactor) Login(ctx context.Context, req dto.LoginUserRequest) (dto.LoginUserResponse, error) {
 	user := entity.User{
 		Username: req.Username,
 		Password: req.Password,
@@ -51,15 +50,13 @@ func (i Interactor) Login(ctx context.Context, req public_dto.LoginUserRequest) 
 	//get information user by username
 	getInfo, errInfo := i.store.GetUserByUsername(ctx, user)
 	if errInfo != nil {
-		return public_dto.LoginUserResponse{}, errInfo
+		return dto.LoginUserResponse{}, errInfo
 	}
-
 	//check password with username
 	checkpass := encrypt.CheckPasswordHash(user.Password, getInfo.Password)
 	if checkpass != nil {
-		return public_dto.LoginUserResponse{Result: false, User: getInfo}, checkpass
+		return dto.LoginUserResponse{Result: false, User: getInfo}, checkpass
 	}
-
 	//return
-	return public_dto.LoginUserResponse{Result: true, User: getInfo}, nil
+	return dto.LoginUserResponse{Result: true, User: getInfo}, nil
 }

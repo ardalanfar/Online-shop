@@ -11,6 +11,8 @@ type User struct {
 	ID_access uint   `json:"id_access"`
 }
 
+/*-----------------------------------------------------*/
+
 func MapFromUserEntity(user entity.User) User {
 	return User{
 		ID:       user.ID,

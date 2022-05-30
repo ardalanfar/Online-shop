@@ -18,13 +18,13 @@ type DbConn struct {
 func New() DbConn {
 	config := config.GetConfig()
 
+	//connection strings
 	dsn := fmt.Sprintf("host=%s user=%s password=%s dbname=%s sslmode=disable TimeZone=Asia/Shanghai",
 		config.DB.Host,
 		config.DB.Username,
 		config.DB.Password,
 		config.DB.Dbname,
 	)
-
 	//connect database
 	database, err := gorm.Open(postgres.Open(dsn), &gorm.Config{})
 	if err != nil {
@@ -34,10 +34,14 @@ func New() DbConn {
 	if errm := database.AutoMigrate(&model.User{}, &model.Access{}); errm != nil {
 		panic("Failed to auto migrate database!")
 	}
+
 	//create information default (for test)
+	/*-----------------------------------------------------*/
 	if errc := InsertSeedAdmin(database); errc != nil {
 		panic("Failed to Insert Admin")
 	}
+	/*-----------------------------------------------------*/
+
 	//return connection database
 	return DbConn{Db: database}
 }

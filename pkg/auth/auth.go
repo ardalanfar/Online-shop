@@ -1,7 +1,7 @@
 package auth
 
 import (
-	"Farashop/internal/dto/public_dto"
+	"Farashop/internal/dto"
 	"net/http"
 	"time"
 
@@ -27,7 +27,7 @@ func GetJWTSecret() string {
 }
 
 // GenerateTokensAndSetCookies generates jwt token and saves it to the http-only cookie.
-func GenerateTokensAndSetCookies(user public_dto.LoginUserResponse, c echo.Context) error {
+func GenerateTokensAndSetCookies(user dto.LoginUserResponse, c echo.Context) error {
 	accessToken, exp, err := generateAccessToken(user)
 	if err != nil {
 		return err
@@ -39,13 +39,13 @@ func GenerateTokensAndSetCookies(user public_dto.LoginUserResponse, c echo.Conte
 	return nil
 }
 
-func generateAccessToken(user public_dto.LoginUserResponse) (string, time.Time, error) {
+func generateAccessToken(user dto.LoginUserResponse) (string, time.Time, error) {
 	expirationTime := time.Now().Add(1 * time.Hour)
 
 	return generateToken(user, expirationTime, []byte(GetJWTSecret()))
 }
 
-func generateToken(user public_dto.LoginUserResponse, expirationTime time.Time, secret []byte) (string, time.Time, error) {
+func generateToken(user dto.LoginUserResponse, expirationTime time.Time, secret []byte) (string, time.Time, error) {
 	claims := &jwtCustomClaims{
 		Name:  user.User.Username,
 		Admin: true,
@@ -77,7 +77,7 @@ func setTokenCookie(name, token string, expiration time.Time, c echo.Context) {
 	c.SetCookie(cookie)
 }
 
-func setUserCookie(user public_dto.LoginUserResponse, expiration time.Time, c echo.Context) {
+func setUserCookie(user dto.LoginUserResponse, expiration time.Time, c echo.Context) {
 	cookie := new(http.Cookie)
 	cookie.Name = "user"
 	cookie.Value = user.User.Username

@@ -1,15 +1,14 @@
 package contract
 
 import (
-	"Farashop/internal/dto/admin_dto"
-	"Farashop/internal/dto/public_dto"
+	"Farashop/internal/dto"
 	"context"
 )
 
-//validator Contract (interface)
+//Validator interactor package Contract (interface)
 
 type (
-	ValidateCreateUser   func(ctx context.Context, req public_dto.CreateUserRequest) error
-	ValidateLoginUser    func(ctx context.Context, req public_dto.LoginUserRequest) error
-	ValidateDeleteMember func(ctx context.Context, req admin_dto.DeleteMemberRequest) error
+	ValidateCreateUser   func(ctx context.Context, req dto.CreateUserRequest) error
+	ValidateLoginUser    func(ctx context.Context, req dto.LoginUserRequest) error
+	ValidateDeleteMember func(ctx context.Context, req dto.DeleteMemberRequest) error
 )

@@ -6,3 +6,5 @@ type Access struct {
 	Access   uint   `json:"access"`
 	Describe string `json:"describe"`
 }
+
+/*-----------------------------------------------------*/

@@ -27,5 +27,6 @@ func InsertSeedAdmin(Db *gorm.DB) error {
 	if resultAccess := Db.Create(&access).Error; resultAccess != nil {
 		return resultAccess
 	}
+	//return
 	return nil
 }

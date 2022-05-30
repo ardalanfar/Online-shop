@@ -31,3 +31,8 @@ func Successfully() error {
 func Unsuccessful() error {
 	return ErrorField{Msg: "Unsuccessful"}
 }
+
+//User does not exist
+func DoesUserExist() error {
+	return ErrorField{Msg: "User does not exist"}
+}

@@ -1,8 +1,8 @@
-package public_dto
+package dto
+
+//Public Contract Interactor Request And Response (Struct)
 
 import "Farashop/internal/entity"
-
-//User Contract Interactor Request And Response (Struct)
 
 /*-----------------Create user----------------------*/
 

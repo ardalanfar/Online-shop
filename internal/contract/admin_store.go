@@ -9,5 +9,5 @@ import (
 
 type AdminStore interface {
 	ShowMembers(ctx context.Context) ([]entity.User, error)
-	//DeleteMember(ctx context.Context, userId uint) error
+	DeleteMember(ctx context.Context, user entity.User) error
 }

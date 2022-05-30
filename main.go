@@ -11,30 +11,29 @@ import (
 
 func main() {
 
-	//connect to database and auto migrate
+	//Connect to database and auto migrate
 	conn := store.New()
 
-	//setup http server
+	//Setup http server
 	e := echo.New()
 
-	//add routes
-	e.POST("/register", public_http.CreateUser(conn, validator.ValidateCreateUser(conn)))
+	//Routes
+	e.POST("/register", public_http.Register(conn, validator.ValidateCreateUser(conn)))
 	e.POST("/login", public_http.LoginUser(conn, validator.ValidateLoginUser(conn)))
 
 	//Admin Group
 	adminGroup := e.Group("/admin")
-
-	/*------------------------------------------------------------*/
-	MemberManagement := adminGroup.Group("/MemberManagement")
+	/*----------------------MemberManagement----------------------*/
+	MemberManagement := adminGroup.Group("/memberanagement")
 	MemberManagement.GET("/showmembers", admin_http.ShowMembers(conn))
-	//MemberManagement.DELETE("/deletmember", admin_dto.DeleteMember(conn,validator.ValidateDeleteMember)))
-
+	MemberManagement.DELETE("/deletemember", admin_http.DeleteMember(conn, validator.ValidateDeleteMember(conn)))
 	/*------------------------------------------------------------*/
 
+	//Member Group
+	//memberGroup := e.Group("/member")
+	/*------------------------------------------------------------*/
 	/*------------------------------------------------------------*/
 
-	//userGroup := e.Group("/user")
-
-	//starting the server
-	e.Logger.Fatal(e.Start(":8031"))
+	//Starting the server
+	e.Logger.Fatal(e.Start(":8052"))
 }

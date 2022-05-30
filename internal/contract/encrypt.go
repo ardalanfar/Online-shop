@@ -1,6 +1,6 @@
 package contract
 
-//Encrypt Contract (interface)
+//Encrypt package Contract (interface)
 
 type Encrypt interface {
 	HashPassword(password string) (string, error)

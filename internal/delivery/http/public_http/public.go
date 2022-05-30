@@ -3,7 +3,7 @@ package public_http
 import (
 	"Farashop/internal/adapter/store"
 	"Farashop/internal/contract"
-	"Farashop/internal/dto/public_dto"
+	"Farashop/internal/dto"
 	"Farashop/internal/service/public_service"
 	"Farashop/pkg/auth"
 	"Farashop/pkg/customerror"
@@ -13,10 +13,10 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func CreateUser(conn store.DbConn, validator contract.ValidateCreateUser) echo.HandlerFunc {
+func Register(conn store.DbConn, validator contract.ValidateCreateUser) echo.HandlerFunc {
 	return func(c echo.Context) error {
 
-		var req = public_dto.CreateUserRequest{}
+		var req = dto.CreateUserRequest{}
 
 		//bind user information
 		if errbind := json.NewDecoder(c.Request().Body).Decode(&req); errbind != nil {
@@ -39,7 +39,7 @@ func CreateUser(conn store.DbConn, validator contract.ValidateCreateUser) echo.H
 func LoginUser(conn store.DbConn, validator contract.ValidateLoginUser) echo.HandlerFunc {
 	return func(c echo.Context) error {
 
-		var req = public_dto.LoginUserRequest{}
+		var req = dto.LoginUserRequest{}
 
 		//bind user information
 		if errbind := json.NewDecoder(c.Request().Body).Decode(&req); errbind != nil {

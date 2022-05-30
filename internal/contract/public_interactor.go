@@ -1,13 +1,13 @@
 package contract
 
 import (
-	"Farashop/internal/dto/public_dto"
+	"Farashop/internal/dto"
 	"context"
 )
 
-//user contract (interface)
+//Public interactor contract (interface)
 
 type UserInteractor interface {
-	Register(context.Context, public_dto.CreateUserRequest) (public_dto.CreateUserResponse, error)
-	Login(context.Context, public_dto.LoginUserRequest) (public_dto.CreateUserResponse, error)
+	Register(context.Context, dto.CreateUserRequest) (dto.CreateUserResponse, error)
+	Login(context.Context, dto.LoginUserRequest) (dto.LoginUserResponse, error)
 }

@@ -1,19 +1,18 @@
-package public_store
+package store
 
 //Account Store intractor
 
 import (
-	"Farashop/internal/adapter/store"
 	"Farashop/internal/adapter/store/model"
 
 	"Farashop/internal/entity"
 	"context"
 )
 
-func (s store.DbConn) CreateUser(ctx context.Context, user entity.User) (entity.User, error) {
+func (s DbConn) Register(ctx context.Context, user entity.User) (entity.User, error) {
 	u := model.MapFromUserEntity(user)
 
-	//cheek username and email in DB
+	//cheek username and email
 	errcheek := s.Db.WithContext(ctx).Where("username = ? OR email = ?", u.Username, u.Email).First(&u).Error
 	if errcheek == nil {
 		return entity.User{}, errcheek
@@ -23,11 +22,11 @@ func (s store.DbConn) CreateUser(ctx context.Context, user entity.User) (entity.
 	if errcreate != nil {
 		return entity.User{}, errcreate
 	}
-
+	//return
 	return model.MapToUserEntity(u), nil
 }
 
-func (s store.DbConn) GetUserByUsername(ctx context.Context, user entity.User) (entity.User, error) {
+func (s DbConn) GetUserByUsername(ctx context.Context, user entity.User) (entity.User, error) {
 	u := model.MapFromUserEntity(user)
 
 	//get id,password,username by username
@@ -35,6 +34,6 @@ func (s store.DbConn) GetUserByUsername(ctx context.Context, user entity.User) (
 	if err != nil {
 		return entity.User{}, err
 	}
-
+	//return
 	return model.MapToUserEntity(u), nil
 }
