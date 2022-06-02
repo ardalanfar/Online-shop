@@ -32,7 +32,12 @@ func Unsuccessful() error {
 	return ErrorField{Msg: "Unsuccessful"}
 }
 
-//User does not exist
-func DoesUserExist() error {
-	return ErrorField{Msg: "User does not exist"}
+//Username does not exist
+func DoesUsernameExist() error {
+	return ErrorField{Msg: "Username does not exist"}
+}
+
+//Id does not exist
+func DoesIDExist() error {
+	return ErrorField{Msg: "ID does not exist"}
 }

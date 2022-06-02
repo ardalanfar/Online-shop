@@ -1,9 +1,10 @@
 package dto
 
-//Member Management Contract Interactor Request And Response (Struct)
+//Admin Contract Interactor Request And Response (Struct)
 
 import "Farashop/internal/entity"
 
+/*-------------------------Member Management----------------------------*/
 /*----------------ShowMembers--------------------*/
 
 type ShowMembersRequest struct{}
@@ -23,3 +24,4 @@ type DeleteMemberResponse struct {
 }
 
 /*------------------------------------------------*/
+/*------------------------------------------------------------------------*/

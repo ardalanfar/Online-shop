@@ -62,6 +62,6 @@ func LoginUser(conn store.DbConn, validator contract.ValidateLoginUser) echo.Han
 			}
 		}
 		//return ui
-		return c.JSON(http.StatusOK, customerror.Successfully())
+		return c.Redirect(http.StatusMovedPermanently, "/admin")
 	}
 }

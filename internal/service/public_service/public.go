@@ -11,10 +11,10 @@ import (
 )
 
 type Interactor struct {
-	store contract.UserStore
+	store contract.PublicStore
 }
 
-func New(store contract.UserStore) Interactor {
+func New(store contract.PublicStore) Interactor {
 	return Interactor{store: store}
 }
 

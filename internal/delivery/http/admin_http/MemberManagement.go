@@ -14,7 +14,6 @@ import (
 
 func ShowMembers(conn store.DbConn) echo.HandlerFunc {
 	return func(c echo.Context) error {
-
 		var req = dto.ShowMembersRequest{}
 
 		//send service
@@ -29,7 +28,6 @@ func ShowMembers(conn store.DbConn) echo.HandlerFunc {
 
 func DeleteMember(conn store.DbConn, validator contract.ValidateDeleteMember) echo.HandlerFunc {
 	return func(c echo.Context) error {
-
 		var req = dto.DeleteMemberRequest{}
 
 		//bind user information

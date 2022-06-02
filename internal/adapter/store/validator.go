@@ -23,10 +23,10 @@ func (s DbConn) DoesUsernameExist(ctx context.Context, Username string) (bool, e
 }
 
 //Does Id Exist in Database
-func (s DbConn) DoesIDExist(ctx context.Context, id uint) (bool, error) {
+func (s DbConn) DoesIDExist(ctx context.Context, Id uint) (bool, error) {
 	u := model.MapFromUserEntity(entity.User{})
 
-	err := s.Db.WithContext(ctx).Where("id = ?", id).First(&u).Error
+	err := s.Db.WithContext(ctx).Where("id = ?", Id).First(&u).Error
 	if err != nil {
 		if err == gorm.ErrRecordNotFound {
 			return false, nil
