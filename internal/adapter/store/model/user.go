@@ -4,11 +4,11 @@ import "Farashop/internal/entity"
 
 //user model database
 type User struct {
-	ID        uint   `json:"id" gorm:"primary_key,serializer:json"`
-	Username  string `json:"username"`
-	Email     string `json:"email"`
-	Password  string `json:"password"`
-	ID_access uint   `json:"id_access"`
+	ID       uint   `json:"id" gorm:"primary_key,serializer:json"`
+	Username string `json:"username"`
+	Email    string `json:"email"`
+	Password string `json:"password"`
+	Access   uint   `json:"access" gorm:"default:2"`
 }
 
 /*-----------------------------------------------------*/

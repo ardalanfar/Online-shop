@@ -27,6 +27,7 @@ func main() {
 	e.POST("/register", public_http.Register(conn, validator.ValidateCreateUser(conn)))
 	e.POST("/login", public_http.LoginUser(conn, validator.ValidateLoginUser(conn)))
 
+	/*--------------------------------------------------------------*/
 	//Admin Group
 	adminGroup := e.Group("/admin")
 	middlewares.SetAdminGroup(adminGroup)
@@ -34,7 +35,8 @@ func main() {
 	/*----------------------Member Management----------------------*/
 	MemberManagement := adminGroup.Group("/membermanagement")
 	MemberManagement.GET("/showmembers", admin_http.ShowMembers(conn))
-	MemberManagement.DELETE("/deletemember", admin_http.DeleteMember(conn, validator.ValidateDeleteMember(conn)))
+	MemberManagement.DELETE("/deletemember/:id", admin_http.DeleteMember(conn, validator.ValidateDeleteMember(conn)))
+
 	/*----------------------Product Management----------------------*/
 	//ProductManagement := adminGroup.Group("/productmanagement")
 

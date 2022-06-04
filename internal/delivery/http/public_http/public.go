@@ -19,6 +19,11 @@ func Register(conn store.DbConn, validator contract.ValidateCreateUser) echo.Han
 		var req = dto.CreateUserRequest{}
 
 		//bind user information
+		// if errbind := c.Bind(&req); errbind != nil {
+		// 	return echo.NewHTTPError(http.StatusBadRequest, errbind.Error())
+		// }
+
+		//bind user information
 		if errbind := json.NewDecoder(c.Request().Body).Decode(&req); errbind != nil {
 			return echo.NewHTTPError(http.StatusBadRequest, errbind.Error())
 		}
@@ -56,12 +61,12 @@ func LoginUser(conn store.DbConn, validator contract.ValidateLoginUser) echo.Han
 		}
 		//call pkg auth(create token and cookie)
 		if resp.Result {
-			err := auth.GenerateTokensAndSetCookies(resp, c)
+			err := auth.GenerateTokensAndSetCookies(resp.User, c)
 			if err != nil {
-				return echo.NewHTTPError(http.StatusUnauthorized, "Wellcom"+resp.User.Username)
+				return echo.NewHTTPError(http.StatusInternalServerError, customerror.Unsuccessful())
 			}
 		}
 		//return ui
-		return c.Redirect(http.StatusMovedPermanently, "/admin")
+		return echo.NewHTTPError(http.StatusUnauthorized, "Wellcom "+resp.User.Username)
 	}
 }

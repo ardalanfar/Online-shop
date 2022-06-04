@@ -31,7 +31,7 @@ func New() DbConn {
 		panic("Failed to connect to database!")
 	}
 	//migrate model
-	if errm := database.AutoMigrate(&model.User{}, &model.Access{}); errm != nil {
+	if errm := database.AutoMigrate(&model.User{}); errm != nil {
 		panic("Failed to auto migrate database!")
 	}
 

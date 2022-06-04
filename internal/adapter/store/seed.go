@@ -16,17 +16,13 @@ func InsertSeedAdmin(Db *gorm.DB) error {
 	}
 	//create admin system
 	pass, _ := encrypt.HashPassword("123456")
-	user = model.User{Username: "admin", Email: "admin@yahoo.com", Password: pass, ID_access: 1}
-	access := []model.Access{{Access: 1, Describe: "Admin"}, {Access: 2, Describe: "Member"}}
+	user = model.User{Username: "admin", Email: "admin@yahoo.com", Password: pass, Access: 1}
 
 	resultUser := Db.Create(&user).Error
 	if resultUser != nil {
 		return resultUser
 	}
-	//build ‌admin access level
-	if resultAccess := Db.Create(&access).Error; resultAccess != nil {
-		return resultAccess
-	}
+
 	//return
 	return nil
 }

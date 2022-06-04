@@ -41,3 +41,8 @@ func DoesUsernameExist() error {
 func DoesIDExist() error {
 	return ErrorField{Msg: "ID does not exist"}
 }
+
+//You do not have access
+func NOAccess() error {
+	return ErrorField{Msg: "You do not have access"}
+}

@@ -30,7 +30,7 @@ func (s DbConn) GetUserByUsername(ctx context.Context, user entity.User) (entity
 	u := model.MapFromUserEntity(user)
 
 	//get id,password,username by username
-	err := s.Db.WithContext(ctx).Select("id", "password", "username").Where("username = ?", u.Username).First(&u).Error
+	err := s.Db.WithContext(ctx).Select("id", "email", "password", "access", "username").Where("username = ?", u.Username).First(&u).Error
 	if err != nil {
 		return entity.User{}, err
 	}

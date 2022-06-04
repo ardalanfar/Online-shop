@@ -1,7 +1,8 @@
 package auth
 
 import (
-	"Farashop/internal/dto"
+	"Farashop/internal/entity"
+	"Farashop/pkg/customerror"
 	"net/http"
 	"time"
 
@@ -9,16 +10,18 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-//Intractor package auth user
-
 const (
-	accessTokenCookieName = "access-token"
-	jwtSecretKey          = "some-secret-key"
+	accessTokenCookieName  = "access-token"
+	jwtSecretKey           = "some-secret-key"
+	refreshTokenCookieName = "refresh-token"
+	jwtRefreshSecretKey    = "some-refresh-secret-key"
 )
 
-type jwtCustomClaims struct {
-	Name  string `json:"name"`
-	Admin bool   `json:"admin"`
+type Claims struct {
+	Name       string `json:"name"`
+	ID         uint   `json:"id"`
+	Authorized bool   `json:"Authorized"`
+	Access     uint   `json:"Access"`
 	jwt.StandardClaims
 }
 
@@ -26,34 +29,45 @@ func GetJWTSecret() string {
 	return jwtSecretKey
 }
 
-// func GetRefreshJWTSecret() string {
-// 	return jwtRefreshSecretKey
-// }
-
-type Claims struct {
-	Name string `json:"name"`
-	jwt.StandardClaims
+func GetRefreshJWTSecret() string {
+	return jwtRefreshSecretKey
 }
 
-func GenerateTokensAndSetCookies(user dto.LoginUserResponse, c echo.Context) error {
+func GetAccessTokenCookieName() string {
+	return accessTokenCookieName
+}
+
+func GetrefReshTokenCookieName() string {
+	return refreshTokenCookieName
+}
+
+func GenerateTokensAndSetCookies(user entity.User, c echo.Context) error {
 	accessToken, exp, err := generateAccessToken(user)
 	if err != nil {
 		return err
 	}
-	setTokenCookie(accessTokenCookieName, accessToken, exp, c)
+	setTokenCookie(GetAccessTokenCookieName(), accessToken, exp, c)
 	setUserCookie(user, exp, c)
+
+	// We generate here a new refresh token and saving it to the cookie.
+	refreshToken, exp, err := generateRefreshToken(user)
+	if err != nil {
+		return err
+	}
+	setTokenCookie(GetrefReshTokenCookieName(), refreshToken, exp, c)
 	return nil
 }
 
-func generateAccessToken(user dto.LoginUserResponse) (string, time.Time, error) {
-	expirationTime := time.Now().Add(1 * time.Hour)
+func generateAccessToken(user entity.User) (string, time.Time, error) {
+	expirationTime := time.Now().Add(15 * time.Minute)
 	return generateToken(user, expirationTime, []byte(GetJWTSecret()))
 }
 
-func generateToken(user dto.LoginUserResponse, expirationTime time.Time, secret []byte) (string, time.Time, error) {
-	claims := &jwtCustomClaims{
-		Name:  user.User.Username,
-		Admin: true,
+func generateToken(user entity.User, expirationTime time.Time, secret []byte) (string, time.Time, error) {
+	claims := &Claims{
+		Name:       user.Username,
+		ID:         user.ID,
+		Authorized: true,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},
@@ -79,54 +93,21 @@ func setTokenCookie(name, token string, expiration time.Time, c echo.Context) {
 	c.SetCookie(cookie)
 }
 
-func setUserCookie(user dto.LoginUserResponse, expiration time.Time, c echo.Context) {
+func setUserCookie(user entity.User, expiration time.Time, c echo.Context) {
 	cookie := new(http.Cookie)
-	cookie.Name = "username"
-	cookie.Value = user.User.Username
+	cookie.Name = "user"
+	cookie.Value = user.Username
 	cookie.Expires = expiration
 	cookie.Path = "/"
 	c.SetCookie(cookie)
 }
 
 func JWTErrorChecker(err error, c echo.Context) error {
-	// Redirects to the signIn form.
-	return c.Redirect(http.StatusMovedPermanently, c.Echo().Reverse("/register"))
+	return c.JSON(http.StatusForbidden, customerror.NOAccess())
 }
 
-// TokenRefresherMiddleware middleware, which refreshes JWT tokens if the access token is about to expire.
-// func TokenRefresherMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
-// 	return func(c echo.Context) error {
-// 		// If the user is not authenticated (no user token data in the context), don't do anything.
-// 		if c.Get("username") == nil {
-// 			return next(c)
-// 		}
-// 		// Gets user token from the context.
-// 		u := c.Get("username").(*jwt.Token)
+func generateRefreshToken(user entity.User) (string, time.Time, error) {
+	expirationTime := time.Now().Add(24 * time.Hour)
 
-// 		claims := u.Claims.(*Claims)
-
-// 		if time.Unix(claims.ExpiresAt, 0).Sub(time.Now()) < 15*time.Minute {
-// 			// Gets the refresh token from the cookie.
-// 			rc, err := c.Cookie(refreshTokenCookieName)
-// 			if err == nil && rc != nil {
-// 				// Parses token and checks if it valid.
-// 				tkn, err := jwt.ParseWithClaims(rc.Value, claims, func(token *jwt.Token) (interface{}, error) {
-// 					return []byte(GetRefreshJWTSecret()), nil
-// 				})
-// 				if err != nil {
-// 					if err == jwt.ErrSignatureInvalid {
-// 						c.Response().Writer.WriteHeader(http.StatusUnauthorized)
-// 					}
-// 				}
-
-// 				if tkn != nil && tkn.Valid {
-// 					// If everything is good, update tokens.
-// 					_ = GenerateTokensAndSetCookies(&username.User{
-// 						Name: claims.Name,
-// 					}, c)
-// 				}
-// 			}
-// 		}
-// 		return next(c)
-// 	}
-// }
+	return generateToken(user, expirationTime, []byte(GetRefreshJWTSecret()))
+}

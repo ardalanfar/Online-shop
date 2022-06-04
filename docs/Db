@@ -12,15 +12,7 @@ id serial primary key,
 usrename varchar(50) unique not null,
 password varchar(50) not null,
 email varchar(255) unique not null,
-);
-
-#-------------------------------------------
-#create table access
-
-CREATE TABLE IF NOT EXISTS "access" (
-id serial primary key,
 access int unique not null,
-describe text
 );
 
 #-------------------------------------------

@@ -6,8 +6,8 @@ import (
 	"Farashop/internal/dto"
 	"Farashop/internal/service/admin_service"
 	"Farashop/pkg/customerror"
-	"encoding/json"
 	"net/http"
+	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
@@ -28,12 +28,13 @@ func ShowMembers(conn store.DbConn) echo.HandlerFunc {
 
 func DeleteMember(conn store.DbConn, validator contract.ValidateDeleteMember) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		var req = dto.DeleteMemberRequest{}
 
 		//bind user information
-		if errbind := json.NewDecoder(c.Request().Body).Decode(&req); errbind != nil {
+		userID, errbind := strconv.Atoi(c.Param("id"))
+		if errbind != nil {
 			return echo.NewHTTPError(http.StatusBadRequest, errbind.Error())
 		}
+		var req = dto.DeleteMemberRequest{ID: uint(userID)}
 		//validat information
 		if errvalidat := validator(c.Request().Context(), req); errvalidat != nil {
 			return echo.NewHTTPError(http.StatusUnprocessableEntity, customerror.InfoNotValid())
