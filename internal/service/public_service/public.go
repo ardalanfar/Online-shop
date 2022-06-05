@@ -14,7 +14,7 @@ type Interactor struct {
 	store contract.PublicStore
 }
 
-func New(store contract.PublicStore) Interactor {
+func NewAuth(store contract.PublicStore) Interactor {
 	return Interactor{store: store}
 }
 
@@ -48,7 +48,7 @@ func (i Interactor) Login(ctx context.Context, req dto.LoginUserRequest) (dto.Lo
 	}
 
 	//get information user by username
-	getInfo, errInfo := i.store.GetUserByUsername(ctx, user)
+	getInfo, errInfo := i.store.Login(ctx, user)
 	if errInfo != nil {
 		return dto.LoginUserResponse{}, errInfo
 	}

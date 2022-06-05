@@ -13,7 +13,7 @@ type Interactor struct {
 	store contract.AdminStore
 }
 
-func New(store contract.AdminStore) Interactor {
+func NewMember(store contract.AdminStore) Interactor {
 	return Interactor{store: store}
 }
 
@@ -31,11 +31,11 @@ func (i Interactor) DeleteMember(ctx context.Context, req dto.DeleteMemberReques
 		ID: req.ID,
 	}
 
-	//get information user by username
+	//Delete Member
 	errInfo := i.store.DeleteMember(ctx, user)
 	if errInfo != nil {
-		return dto.DeleteMemberResponse{}, errInfo
+		return dto.DeleteMemberResponse{Result: false}, errInfo
 	}
-	//return
+	//return true
 	return dto.DeleteMemberResponse{Result: true}, nil
 }

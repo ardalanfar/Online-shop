@@ -9,5 +9,5 @@ import (
 
 type PublicStore interface {
 	Register(ctx context.Context, user entity.User) (entity.User, error)
-	GetUserByUsername(ctx context.Context, user entity.User) (entity.User, error)
+	Login(ctx context.Context, user entity.User) (entity.User, error)
 }

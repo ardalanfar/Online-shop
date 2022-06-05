@@ -19,6 +19,7 @@ func MapFromUserEntity(user entity.User) User {
 		Username: user.Username,
 		Email:    user.Email,
 		Password: user.Password,
+		Access:   user.Access,
 	}
 }
 
@@ -28,5 +29,8 @@ func MapToUserEntity(user User) entity.User {
 		Username: user.Username,
 		Email:    user.Email,
 		Password: user.Password,
+		Access:   user.Access,
 	}
 }
+
+/*-----------------------------------------------------*/

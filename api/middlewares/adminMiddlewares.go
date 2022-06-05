@@ -25,15 +25,16 @@ func SetAdminGroup(grp *echo.Group) {
 
 func TokenRefresherMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
+
 		if c.Get("user") == nil {
 			return next(c)
 		}
-
 		u := c.Get("user").(*jwt.Token)
 		claims := u.Claims.(*auth.Claims)
 
-		if time.Unix(claims.ExpiresAt, 0).Sub(time.Now()) < 15*time.Minute {
+		if time.Unix(claims.ExpiresAt, 0).Sub(time.Now()) < 10*time.Minute {
 			rc, err := c.Cookie(auth.GetrefReshTokenCookieName())
+
 			if err == nil && rc != nil {
 
 				tkn, err := jwt.ParseWithClaims(rc.Value, claims, func(token *jwt.Token) (interface{}, error) {

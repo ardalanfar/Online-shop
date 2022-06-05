@@ -18,10 +18,9 @@ const (
 )
 
 type Claims struct {
-	Name       string `json:"name"`
-	ID         uint   `json:"id"`
-	Authorized bool   `json:"Authorized"`
-	Access     uint   `json:"Access"`
+	Name   string `json:"name"`
+	ID     uint   `json:"id"`
+	Access uint   `json:"Access"`
 	jwt.StandardClaims
 }
 
@@ -47,7 +46,6 @@ func GenerateTokensAndSetCookies(user entity.User, c echo.Context) error {
 		return err
 	}
 	setTokenCookie(GetAccessTokenCookieName(), accessToken, exp, c)
-	setUserCookie(user, exp, c)
 
 	// We generate here a new refresh token and saving it to the cookie.
 	refreshToken, exp, err := generateRefreshToken(user)
@@ -59,15 +57,15 @@ func GenerateTokensAndSetCookies(user entity.User, c echo.Context) error {
 }
 
 func generateAccessToken(user entity.User) (string, time.Time, error) {
-	expirationTime := time.Now().Add(15 * time.Minute)
+	expirationTime := time.Now().Add(30 * time.Minute)
 	return generateToken(user, expirationTime, []byte(GetJWTSecret()))
 }
 
 func generateToken(user entity.User, expirationTime time.Time, secret []byte) (string, time.Time, error) {
 	claims := &Claims{
-		Name:       user.Username,
-		ID:         user.ID,
-		Authorized: true,
+		Name:   user.Username,
+		ID:     user.ID,
+		Access: user.Access,
 		StandardClaims: jwt.StandardClaims{
 			ExpiresAt: expirationTime.Unix(),
 		},
@@ -90,15 +88,6 @@ func setTokenCookie(name, token string, expiration time.Time, c echo.Context) {
 	cookie.Path = "/"
 	// Http-only helps mitigate the risk of client side script accessing the protected cookie.
 	cookie.HttpOnly = true
-	c.SetCookie(cookie)
-}
-
-func setUserCookie(user entity.User, expiration time.Time, c echo.Context) {
-	cookie := new(http.Cookie)
-	cookie.Name = "user"
-	cookie.Value = user.Username
-	cookie.Expires = expiration
-	cookie.Path = "/"
 	c.SetCookie(cookie)
 }
 

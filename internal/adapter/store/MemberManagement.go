@@ -28,3 +28,14 @@ func (s DbConn) DeleteMember(ctx context.Context, user entity.User) error {
 	//return
 	return nil
 }
+
+func (s DbConn) SendMsg(ctx context.Context, user entity.User) (entity.User, error) {
+	u := model.MapFromUserEntity(user)
+
+	//get "id", "email", "username" by username
+	if err := s.Db.WithContext(ctx).Select("id", "email", "username").First(&u).Error; err != nil {
+		return entity.User{}, err
+	}
+	//return
+	return model.MapToUserEntity(u), nil
+}

@@ -26,10 +26,10 @@ func (s DbConn) Register(ctx context.Context, user entity.User) (entity.User, er
 	return model.MapToUserEntity(u), nil
 }
 
-func (s DbConn) GetUserByUsername(ctx context.Context, user entity.User) (entity.User, error) {
+func (s DbConn) Login(ctx context.Context, user entity.User) (entity.User, error) {
 	u := model.MapFromUserEntity(user)
 
-	//get id,password,username by username
+	//get "id", "email", "password", "access", "username" by username
 	err := s.Db.WithContext(ctx).Select("id", "email", "password", "access", "username").Where("username = ?", u.Username).First(&u).Error
 	if err != nil {
 		return entity.User{}, err

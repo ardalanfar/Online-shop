@@ -32,7 +32,7 @@ func Register(conn store.DbConn, validator contract.ValidateCreateUser) echo.Han
 			return echo.NewHTTPError(http.StatusUnprocessableEntity, customerror.InfoNotValid())
 		}
 		//send service
-		_, errservice := public_service.New(conn).Register(c.Request().Context(), req)
+		_, errservice := public_service.NewAuth(conn).Register(c.Request().Context(), req)
 		if errservice != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, customerror.InfoIncorrect())
 		}
@@ -55,7 +55,7 @@ func LoginUser(conn store.DbConn, validator contract.ValidateLoginUser) echo.Han
 			return echo.NewHTTPError(http.StatusUnprocessableEntity, customerror.InfoNotValid())
 		}
 		//send service
-		resp, errservice := public_service.New(conn).Login(c.Request().Context(), req)
+		resp, errservice := public_service.NewAuth(conn).Login(c.Request().Context(), req)
 		if errservice != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, customerror.InfoIncorrect())
 		}

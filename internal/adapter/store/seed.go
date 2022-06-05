@@ -22,7 +22,6 @@ func InsertSeedAdmin(Db *gorm.DB) error {
 	if resultUser != nil {
 		return resultUser
 	}
-
 	//return
 	return nil
 }
