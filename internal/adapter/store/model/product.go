@@ -1,7 +1,7 @@
 package model
 
 //product model database
-type Product struct {
+type ProductDBModel struct {
 	ID       uint   `json:"id" gorm:"primary_key,serializer:json"`
 	Name     string `json:"name"`
 	Price    uint   `json:"price"`

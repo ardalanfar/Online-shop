@@ -26,13 +26,12 @@ type DeleteMemberResponse struct {
 /*------------------------------------------------*/
 /*---------------------------Message Management-----------------------------*/
 /*----------------SendMassage--------------------*/
-type SendMsgRequest struct {
+type ShowInfoMemberRequest struct {
 	ID uint `json:"id"`
 }
 
-type SendMsgResponse struct {
+type ShowInfoMemberResponse struct {
 	User   entity.User
-	Result bool `json:"result"`
 }
 
 /*------------------------------------------------*/

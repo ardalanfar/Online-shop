@@ -13,6 +13,8 @@ usrename varchar(50) unique not null,
 password varchar(50) not null,
 email varchar(255) unique not null,
 access int unique not null,
+Verification_code int  not null,
+Is_verified varchar(50) not null,
 );
 
 #-------------------------------------------

@@ -46,3 +46,8 @@ func DoesIDExist() error {
 func NOAccess() error {
 	return ErrorField{Msg: "You do not have access"}
 }
+
+//Email could not be sent
+func SendEmailErr() error {
+	return ErrorField{Msg: "You do not have access"}
+}

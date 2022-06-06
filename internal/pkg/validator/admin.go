@@ -17,8 +17,8 @@ func ValidateDeleteMember(store store.DbConn) contract.ValidateDeleteMember {
 	}
 }
 
-func ValidateSendMessage(store store.DbConn) contract.ValidateSendMessage {
-	return func(ctx context.Context, req dto.SendMsgRequest) error {
+func ValidateShowInfoMember(store store.DbConn) contract.ValidateShowInfoMember {
+	return func(ctx context.Context, req dto.ShowInfoMemberRequest) error {
 		return validation.ValidateStruct(&req,
 			validation.Field(&req.ID, validation.By(DoesIDExist(ctx, store))),
 		)

@@ -8,6 +8,7 @@ import (
 	"Farashop/internal/entity"
 	"Farashop/pkg/encrypt"
 	"context"
+	"math/rand"
 )
 
 type Interactor struct {
@@ -32,13 +33,17 @@ func (i Interactor) Register(ctx context.Context, req dto.CreateUserRequest) (dt
 	}
 	user.Password = Password
 
+	//create verification code
+	randCode := rand.Intn(99999)
+	user.Verification_code = uint(randCode)
+
 	//create user
 	createdUser, errCrate := i.store.Register(ctx, user)
 	if errCrate != nil {
 		return dto.CreateUserResponse{Result: false}, errCrate
 	}
 	//return
-	return dto.CreateUserResponse{User: createdUser}, nil
+	return dto.CreateUserResponse{User: createdUser, Result: true}, nil
 }
 
 func (i Interactor) Login(ctx context.Context, req dto.LoginUserRequest) (dto.LoginUserResponse, error) {

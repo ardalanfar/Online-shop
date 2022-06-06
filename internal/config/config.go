@@ -2,7 +2,8 @@ package config
 
 //config system
 type Config struct {
-	DB *DBConfig
+	DB    *DBConfig
+	Email *SendEmail
 }
 
 //config database postgresql
@@ -14,6 +15,14 @@ type DBConfig struct {
 	Port     string
 }
 
+//email config
+type SendEmail struct {
+	From     string
+	Password string
+	SmtpHost string
+	SmtpPort string
+}
+
 //set config app
 func GetConfig() *Config {
 	return &Config{
@@ -23,6 +32,12 @@ func GetConfig() *Config {
 			Dbname:   "farashop",
 			Host:     "localhost",
 			Port:     "9920",
+		},
+		Email: &SendEmail{
+			From:     "from@gmail.com",
+			Password: "testpassword",
+			SmtpHost: "smtp.gmail.com",
+			SmtpPort: "587",
 		},
 	}
 }

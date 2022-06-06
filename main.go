@@ -36,22 +36,14 @@ func main() {
 	MemberManagement := adminGroup.Group("/membermanagement")
 	MemberManagement.GET("/showmembers", admin_http.ShowMembers(conn))
 	MemberManagement.DELETE("/deletemember/:id", admin_http.DeleteMember(conn, validator.ValidateDeleteMember(conn)))
-	//MemberManagement.Post("/showinfo/:id",)
-
-	/*----------------------Message Management----------------------*/
-	MessageManagement := adminGroup.Group("/messagemanagement")
-	MessageManagement.POST("/sendmessage/:id", admin_http.SendMessage(conn, validator.ValidateSendMessage(conn)))
-
-	/*----------------------Product Management----------------------*/
-	//ProductManagement := adminGroup.Group("/productmanagement")
-
+	MemberManagement.POST("/showinfo/:id", admin_http.ShowInfoMember(conn, validator.ValidateShowInfoMember(conn)))
 	/*--------------------------------------------------------------*/
 
 	//Member Group
 	//memberGroup := e.Group("/member")
-	/*------------------------------------------------------------*/
-	/*------------------------------------------------------------*/
+	/*-----------------------Order Management-----------------------*/
+	/*--------------------------------------------------------------*/
 
 	//Starting the server
-	e.Logger.Fatal(e.Start(":8062"))
+	e.Logger.Fatal(e.Start(":8078"))
 }

@@ -17,8 +17,8 @@ func ShowMembers(conn store.DbConn) echo.HandlerFunc {
 		var req = dto.ShowMembersRequest{}
 
 		//send service
-		resService, errservice := admin_service.NewMember(conn).ShowMembers(c.Request().Context(), req)
-		if errservice != nil {
+		resService, errService := admin_service.NewMember(conn).ShowMembers(c.Request().Context(), req)
+		if errService != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, customerror.Unsuccessful())
 		}
 		//return ui
@@ -29,21 +29,47 @@ func ShowMembers(conn store.DbConn) echo.HandlerFunc {
 func DeleteMember(conn store.DbConn, validator contract.ValidateDeleteMember) echo.HandlerFunc {
 	return func(c echo.Context) error {
 
-		userID, errbind := strconv.Atoi(c.Param("id"))
-		if errbind != nil {
-			return echo.NewHTTPError(http.StatusBadRequest, errbind.Error())
+		//bind user information
+		userID, errBind := strconv.Atoi(c.Param("id"))
+		if errBind != nil {
+			return echo.NewHTTPError(http.StatusBadRequest, errBind.Error())
 		}
 		var req = dto.DeleteMemberRequest{ID: uint(userID)}
 		//validat information
-		if errvalidat := validator(c.Request().Context(), req); errvalidat != nil {
+		if errValidat := validator(c.Request().Context(), req); errValidat != nil {
 			return echo.NewHTTPError(http.StatusUnprocessableEntity, customerror.InfoNotValid())
 		}
 		//send service
-		resService, errservice := admin_service.NewMember(conn).DeleteMember(c.Request().Context(), req)
-		if errservice != nil && resService.Result == false {
+		resService, errService := admin_service.NewMember(conn).DeleteMember(c.Request().Context(), req)
+		if errService != nil && resService.Result == false {
 			return echo.NewHTTPError(http.StatusInternalServerError, customerror.InfoIncorrect())
 		}
 		//return ui
 		return c.JSON(http.StatusOK, customerror.Successfully())
+	}
+}
+
+func ShowInfoMember(conn store.DbConn, validator contract.ValidateShowInfoMember) echo.HandlerFunc {
+	return func(c echo.Context) error {
+
+		//bind user information
+		userID, errBind := strconv.Atoi(c.Param("id"))
+		if errBind != nil {
+			return echo.NewHTTPError(http.StatusBadRequest, errBind.Error())
+		}
+		var req = dto.ShowInfoMemberRequest{ID: uint(userID)}
+
+		//validat information
+		if errValidat := validator(c.Request().Context(), req); errValidat != nil {
+			return echo.NewHTTPError(http.StatusUnprocessableEntity, customerror.InfoNotValid())
+		}
+		//send service
+		resService, errService := admin_service.NewMember(conn).ShowInfoMember(c.Request().Context(), req)
+		if errService != nil {
+			return echo.NewHTTPError(http.StatusInternalServerError, customerror.InfoIncorrect())
+		}
+
+		//return ui
+		return c.JSON(http.StatusOK, resService)
 	}
 }

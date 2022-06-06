@@ -29,7 +29,7 @@ func (s DbConn) DeleteMember(ctx context.Context, user entity.User) error {
 	return nil
 }
 
-func (s DbConn) SendMsg(ctx context.Context, user entity.User) (entity.User, error) {
+func (s DbConn) ShowInfoMember(ctx context.Context, user entity.User) (entity.User, error) {
 	u := model.MapFromUserEntity(user)
 
 	//get "id", "email", "username" by username

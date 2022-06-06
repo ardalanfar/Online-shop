@@ -15,7 +15,7 @@ import (
 func ValidateCreateUser(store store.DbConn) contract.ValidateCreateUser {
 	return func(ctx context.Context, req dto.CreateUserRequest) error {
 		return validation.ValidateStruct(&req,
-			validation.Field(&req.Username, validation.By(DoesUsernameExist(ctx, store))),
+			validation.Field(&req.Username, validation.Required),
 			validation.Field(&req.Email, validation.Required, is.Email),
 			validation.Field(&req.Password, validation.Required),
 		)

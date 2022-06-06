@@ -16,7 +16,7 @@ func InsertSeedAdmin(Db *gorm.DB) error {
 	}
 	//create admin system
 	pass, _ := encrypt.HashPassword("123456")
-	user = model.User{Username: "admin", Email: "admin@yahoo.com", Password: pass, Access: 1}
+	user = model.User{Username: "admin", Email: "admin@yahoo.com", Password: pass, Access: 1, Is_verified: "active"}
 
 	resultUser := Db.Create(&user).Error
 	if resultUser != nil {

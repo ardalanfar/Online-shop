@@ -10,5 +10,5 @@ import (
 type AdminInteractor interface {
 	ShowMembers(context.Context, dto.ShowMembersRequest) (dto.ShowMembersResponse, error)
 	DeleteMember(context.Context, dto.DeleteMemberRequest) (dto.DeleteMemberResponse, error)
-	SendMsg(context.Context, dto.SendMsgRequest) (dto.SendMsgResponse, error)
+	ShowInfoMember(context.Context, dto.ShowInfoMemberRequest) (dto.ShowInfoMemberResponse, error)
 }
