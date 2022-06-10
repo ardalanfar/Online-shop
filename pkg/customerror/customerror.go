@@ -32,12 +32,7 @@ func Unsuccessful() error {
 	return ErrorField{Msg: "Unsuccessful"}
 }
 
-//Username does not exist
-func DoesUsernameExist() error {
-	return ErrorField{Msg: "Username does not exist"}
-}
-
-//Id does not exist
+//ID does not exist
 func DoesIDExist() error {
 	return ErrorField{Msg: "ID does not exist"}
 }
@@ -49,5 +44,10 @@ func NOAccess() error {
 
 //Email could not be sent
 func SendEmailErr() error {
-	return ErrorField{Msg: "You do not have access"}
+	return ErrorField{Msg: "Successful but email not sent"}
+}
+
+//Username does not active
+func DoesUsernameActive() error {
+	return ErrorField{Msg: "Username does not active"}
 }

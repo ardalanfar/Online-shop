@@ -1,7 +1,5 @@
 package admin_service
 
-//Admin intractor (ShowMembers , )
-
 import (
 	"Farashop/internal/contract"
 	"Farashop/internal/dto"

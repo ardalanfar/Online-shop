@@ -5,6 +5,6 @@ import "context"
 //Validator Store package Contract (interface)
 
 type ValidatorStore interface {
-	DoesUsernameExist(ctx context.Context, username string) (bool, error)
-	DoesIDExist(ctx context.Context, id uint) (bool, error)
+	DoesUsernameActiveStore(ctx context.Context, username string) (bool, error)
+	DoesIDExistStore(ctx context.Context, id uint) (bool, error)
 }

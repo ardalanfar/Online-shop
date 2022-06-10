@@ -24,19 +24,23 @@ func main() {
 	e.Use(middleware.Recover())
 
 	//Routes
-	e.POST("/register", public_http.Register(conn, validator.ValidateCreateUser(conn)))
-	e.POST("/login", public_http.LoginUser(conn, validator.ValidateLoginUser(conn)))
+
+	/*--------------------------------------------------------------*/
+	//Public Group
+	e.POST("/register", public_http.Register(conn, validator.ValidateRegister(conn)))
+	e.POST("/login", public_http.Login(conn, validator.ValidateLogin(conn)))
+	e.PATCH("/validation", public_http.MemberValidation(conn, validator.ValidateMemberValidation(conn)))
 
 	/*--------------------------------------------------------------*/
 	//Admin Group
 	adminGroup := e.Group("/admin")
 	middlewares.SetAdminGroup(adminGroup)
 
-	/*----------------------Member Management----------------------*/
+	/*------------Member Management------------*/
 	MemberManagement := adminGroup.Group("/membermanagement")
 	MemberManagement.GET("/showmembers", admin_http.ShowMembers(conn))
 	MemberManagement.DELETE("/deletemember/:id", admin_http.DeleteMember(conn, validator.ValidateDeleteMember(conn)))
-	MemberManagement.POST("/showinfo/:id", admin_http.ShowInfoMember(conn, validator.ValidateShowInfoMember(conn)))
+	//MemberManagement.POST("/showinfo/:id", admin_http.ShowInfoMember(conn, validator.ValidateShowInfoMember(conn)))
 	/*--------------------------------------------------------------*/
 
 	//Member Group
@@ -45,5 +49,5 @@ func main() {
 	/*--------------------------------------------------------------*/
 
 	//Starting the server
-	e.Logger.Fatal(e.Start(":8078"))
+	e.Logger.Fatal(e.Start(":8086"))
 }

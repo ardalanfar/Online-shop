@@ -18,6 +18,7 @@ type DBConfig struct {
 //email config
 type SendEmail struct {
 	From     string
+	Username string
 	Password string
 	SmtpHost string
 	SmtpPort string
@@ -26,6 +27,7 @@ type SendEmail struct {
 //set config app
 func GetConfig() *Config {
 	return &Config{
+
 		DB: &DBConfig{
 			Username: "admin",
 			Password: "123456",
@@ -33,11 +35,15 @@ func GetConfig() *Config {
 			Host:     "localhost",
 			Port:     "9920",
 		},
+
 		Email: &SendEmail{
-			From:     "from@gmail.com",
-			Password: "testpassword",
-			SmtpHost: "smtp.gmail.com",
-			SmtpPort: "587",
+			//Sender data.
+			From:     "ar4sh_ardalan@yahoo.com",
+			Username: "ar4sh_ardalan@yahoo.com",
+			Password: "",
+			//smtp server configuration.
+			SmtpHost: "smtp.mail.yahoo.com",
+			SmtpPort: "465",
 		},
 	}
 }

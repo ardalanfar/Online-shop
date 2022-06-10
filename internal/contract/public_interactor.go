@@ -10,4 +10,5 @@ import (
 type UserInteractor interface {
 	Register(context.Context, dto.CreateUserRequest) (dto.CreateUserResponse, error)
 	Login(context.Context, dto.LoginUserRequest) (dto.LoginUserResponse, error)
+	MemberValidation(context.Context, dto.MemberValidationRequest) (dto.MemberValidationResponse, error)
 }

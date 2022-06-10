@@ -1,37 +1,24 @@
 package store
 
 import (
-	"Farashop/internal/adapter/store/model"
 	"Farashop/internal/entity"
 	"context"
-
-	"gorm.io/gorm"
 )
 
-//Does Username Exist in Database
-func (s DbConn) DoesUsernameExist(ctx context.Context, Username string) (bool, error) {
-	u := model.MapFromUserEntity(entity.User{})
-
-	err := s.Db.WithContext(ctx).Where("username = ?", Username).First(&u).Error
-	if err != nil {
-		if err == gorm.ErrRecordNotFound {
-			return false, nil
-		}
-		return false, err
+//Does Username Exist and active in Database
+func (conn DbConn) DoesUsernameActiveStore(ctx context.Context, Username string) (bool, error) {
+	cheek := conn.Db.WithContext(ctx).Where("username = ? AND is_verified = ?", Username, "active").First(&entity.User{})
+	if cheek.Error != nil || cheek.RowsAffected == 0 {
+		return false, cheek.Error
 	}
 	return true, nil
 }
 
 //Does Id Exist in Database
-func (s DbConn) DoesIDExist(ctx context.Context, Id uint) (bool, error) {
-	u := model.MapFromUserEntity(entity.User{})
-
-	err := s.Db.WithContext(ctx).Where("id = ?", Id).First(&u).Error
-	if err != nil {
-		if err == gorm.ErrRecordNotFound {
-			return false, nil
-		}
-		return false, err
+func (conn DbConn) DoesIDExistStore(ctx context.Context, Id uint) (bool, error) {
+	cheek := conn.Db.WithContext(ctx).Where("id = ?", Id).First(&entity.User{})
+	if cheek.Error != nil || cheek.RowsAffected == 0 {
+		return false, cheek.Error
 	}
 	return true, nil
 }

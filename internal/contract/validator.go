@@ -5,11 +5,12 @@ import (
 	"context"
 )
 
-//Validator interactor package Contract (interface)
+//Validator interactor package Contract
 
 type (
-	ValidateCreateUser     func(ctx context.Context, req dto.CreateUserRequest) error
-	ValidateLoginUser      func(ctx context.Context, req dto.LoginUserRequest) error
-	ValidateDeleteMember   func(ctx context.Context, req dto.DeleteMemberRequest) error
-	ValidateShowInfoMember func(ctx context.Context, req dto.ShowInfoMemberRequest) error
+	ValidateRegister         func(ctx context.Context, req dto.CreateUserRequest) error
+	ValidateLogin            func(ctx context.Context, req dto.LoginUserRequest) error
+	ValidateDeleteMember     func(ctx context.Context, req dto.DeleteMemberRequest) error
+	ValidateShowInfoMember   func(ctx context.Context, req dto.ShowInfoMemberRequest) error
+	ValidateMemberValidation func(ctx context.Context, req dto.MemberValidationRequest) error
 )

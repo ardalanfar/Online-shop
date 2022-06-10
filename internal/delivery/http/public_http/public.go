@@ -1,6 +1,7 @@
 package public_http
 
 import (
+	"Farashop/internal/adapter/sendmsg"
 	"Farashop/internal/adapter/store"
 	"Farashop/internal/config"
 	"Farashop/internal/contract"
@@ -8,22 +9,15 @@ import (
 	"Farashop/internal/service/public_service"
 	"Farashop/pkg/auth"
 	"Farashop/pkg/customerror"
-	"Farashop/pkg/sendmsg"
 	"encoding/json"
 	"net/http"
-	"strconv"
 
 	"github.com/labstack/echo/v4"
 )
 
-func Register(conn store.DbConn, validator contract.ValidateCreateUser) echo.HandlerFunc {
+func Register(conn store.DbConn, validator contract.ValidateRegister) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var req = dto.CreateUserRequest{}
-
-		//bind user information
-		// if errbind := c.Bind(&req); errbind != nil {
-		// 	return echo.NewHTTPError(http.StatusBadRequest, errbind.Error())
-		// }
 
 		//bind user information
 		if errBind := json.NewDecoder(c.Request().Body).Decode(&req); errBind != nil {
@@ -41,11 +35,19 @@ func Register(conn store.DbConn, validator contract.ValidateCreateUser) echo.Han
 		//send email welcome register
 		if resService.Result == true {
 			config := config.GetConfig().Email
-			msg := "Welcom" + resService.User.Username + "verify code :" + strconv.FormatUint(uint64(resService.User.Verification_code), 10)
 			to := []string{
 				resService.User.Email,
 			}
-			err := sendmsg.SendEmailUser(msg, to, config)
+			subject := "verify register"
+			request := sendmsg.Mail{
+				Sender:  config.From,
+				To:      to,
+				Subject: subject,
+			}
+			//build message
+			msg := request.BuildMessage()
+			//send email
+			err := request.SendEmailUser(msg, config)
 			if err != nil {
 				return echo.NewHTTPError(http.StatusInternalServerError, customerror.SendEmailErr())
 			}
@@ -55,7 +57,7 @@ func Register(conn store.DbConn, validator contract.ValidateCreateUser) echo.Han
 	}
 }
 
-func LoginUser(conn store.DbConn, validator contract.ValidateLoginUser) echo.HandlerFunc {
+func Login(conn store.DbConn, validator contract.ValidateLogin) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var req = dto.LoginUserRequest{}
 
@@ -80,6 +82,29 @@ func LoginUser(conn store.DbConn, validator contract.ValidateLoginUser) echo.Han
 			}
 		}
 		//return ui
-		return echo.NewHTTPError(http.StatusUnauthorized, "Wellcom "+resService.User.Username)
+		return echo.NewHTTPError(http.StatusOK, "Wellcom "+resService.User.Username)
+	}
+}
+
+func MemberValidation(conn store.DbConn, validator contract.ValidateMemberValidation) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		var req = dto.MemberValidationRequest{}
+
+		//bind user information
+		if errBind := json.NewDecoder(c.Request().Body).Decode(&req); errBind != nil {
+			return echo.NewHTTPError(http.StatusBadRequest, errBind.Error())
+		}
+		//validat information
+		if errValidat := validator(c.Request().Context(), req); errValidat != nil {
+			return echo.NewHTTPError(http.StatusUnprocessableEntity, customerror.InfoNotValid())
+		}
+		//send service
+		resService, errService := public_service.NewAuth(conn).MemberValidation(c.Request().Context(), req)
+		if errService != nil || resService.Result == false {
+			return echo.NewHTTPError(http.StatusInternalServerError, customerror.InfoIncorrect())
+		}
+		//return ui
+		return c.JSON(http.StatusOK, customerror.Successfully())
+
 	}
 }

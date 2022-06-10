@@ -2,7 +2,8 @@ package model
 
 import "Farashop/internal/entity"
 
-//user model database
+//User model database
+
 type User struct {
 	ID                uint   `json:"id" gorm:"primary_key,serializer:json,NOT NULL"`
 	Username          string `json:"username" gorm:"NOT NULL"`

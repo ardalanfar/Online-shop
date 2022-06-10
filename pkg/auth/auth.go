@@ -47,7 +47,7 @@ func GenerateTokensAndSetCookies(user entity.User, c echo.Context) error {
 	}
 	setTokenCookie(GetAccessTokenCookieName(), accessToken, exp, c)
 
-	// We generate here a new refresh token and saving it to the cookie.
+	//generate here a new refresh token and saving it to the cookie.
 	refreshToken, exp, err := generateRefreshToken(user)
 	if err != nil {
 		return err
@@ -72,7 +72,7 @@ func generateToken(user entity.User, expirationTime time.Time, secret []byte) (s
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
 
-	// Create the JWT string.
+	//Create the JWT string.
 	tokenString, err := token.SignedString(secret)
 	if err != nil {
 		return "", time.Now(), err
@@ -86,7 +86,7 @@ func setTokenCookie(name, token string, expiration time.Time, c echo.Context) {
 	cookie.Value = token
 	cookie.Expires = expiration
 	cookie.Path = "/"
-	// Http-only helps mitigate the risk of client side script accessing the protected cookie.
+	//Http-only
 	cookie.HttpOnly = true
 	c.SetCookie(cookie)
 }

@@ -25,13 +25,13 @@ type DeleteMemberResponse struct {
 
 /*------------------------------------------------*/
 /*---------------------------Message Management-----------------------------*/
-/*----------------SendMassage--------------------*/
+/*----------------Show Information---------------*/
 type ShowInfoMemberRequest struct {
 	ID uint `json:"id"`
 }
 
 type ShowInfoMemberResponse struct {
-	User   entity.User
+	User entity.User
 }
 
 /*------------------------------------------------*/

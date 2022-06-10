@@ -29,4 +29,15 @@ type LoginUserResponse struct {
 	User   entity.User `json:"user"`
 }
 
+/*---------------------Member Validation----------------*/
+
+type MemberValidationRequest struct {
+	Username string `json:"username"`
+	Code     uint   `json:"code"`
+}
+
+type MemberValidationResponse struct {
+	Result bool `json:"result"`
+}
+
 /*-----------------------------------------------------*/

@@ -1,7 +1,5 @@
 package public_service
 
-//User intractor (loign , register)
-
 import (
 	"Farashop/internal/contract"
 	"Farashop/internal/dto"
@@ -32,11 +30,11 @@ func (i Interactor) Register(ctx context.Context, req dto.CreateUserRequest) (dt
 		return dto.CreateUserResponse{Result: false}, errhash
 	}
 	user.Password = Password
-
 	//create verification code
-	randCode := rand.Intn(99999)
+	min := 10000
+	max := 99999
+	randCode := rand.Intn(max-min) + min
 	user.Verification_code = uint(randCode)
-
 	//create user
 	createdUser, errCrate := i.store.Register(ctx, user)
 	if errCrate != nil {
@@ -64,4 +62,19 @@ func (i Interactor) Login(ctx context.Context, req dto.LoginUserRequest) (dto.Lo
 	}
 	//return
 	return dto.LoginUserResponse{Result: true, User: getInfo}, nil
+}
+
+func (i Interactor) MemberValidation(ctx context.Context, req dto.MemberValidationRequest) (dto.MemberValidationResponse, error) {
+	user := entity.User{
+		Username:          req.Username,
+		Verification_code: req.Code,
+	}
+
+	//
+	resUpdate, errInfo := i.store.MemberValidation(ctx, user)
+	if errInfo != nil || resUpdate == false {
+		return dto.MemberValidationResponse{Result: false}, errInfo
+	}
+	//return true
+	return dto.MemberValidationResponse{Result: true}, nil
 }
