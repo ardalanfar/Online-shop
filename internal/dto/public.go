@@ -4,17 +4,16 @@ package dto
 
 import "Farashop/internal/entity"
 
-/*-----------------Create user----------------------*/
+/*-----------------Register user----------------------*/
 
-type CreateUserRequest struct {
+type RegisterUserRequest struct {
 	Username string `json:"username"`
 	Email    string `json:"email"`
 	Password string `json:"password"`
 }
 
-type CreateUserResponse struct {
-	Result bool        `json:"result"`
-	User   entity.User `json:"user"`
+type RegisterUserResponse struct {
+	Result bool `json:"result"`
 }
 
 /*--------------------Login user----------------------*/

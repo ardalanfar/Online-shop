@@ -5,10 +5,10 @@ import (
 	"context"
 )
 
-//Public store contract (interface)
+//public store(adapter) contract (interface)
 
 type PublicStore interface {
-	Register(ctx context.Context, user entity.User) (entity.User, error)
+	Register(ctx context.Context, user entity.User) error
 	Login(ctx context.Context, user entity.User) (entity.User, error)
 	MemberValidation(ctx context.Context, user entity.User) (bool, error)
 }

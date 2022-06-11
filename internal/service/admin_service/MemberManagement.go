@@ -11,7 +11,7 @@ type Interactor struct {
 	store contract.AdminStore
 }
 
-func NewMember(store contract.AdminStore) Interactor {
+func NewAdmin(store contract.AdminStore) Interactor {
 	return Interactor{store: store}
 }
 

@@ -6,11 +6,11 @@ import "Farashop/internal/entity"
 
 type User struct {
 	ID                uint   `json:"id" gorm:"primary_key,serializer:json,NOT NULL"`
-	Username          string `json:"username" gorm:"NOT NULL"`
-	Email             string `json:"email" gorm:"NOT NULL"`
+	Username          string `json:"username" gorm:"NOT NULL,UNIQUE"`
+	Email             string `json:"email" gorm:"NOT NULL,UNIQUE"`
 	Password          string `json:"password" gorm:"NOT NULL"`
 	Access            uint   `json:"access" gorm:"default:2"`
-	Verification_code uint   `json:"verification_code" gorm:"NOT NULL"`
+	Verification_code uint   `json:"verification_code" gorm:"NOT NULL,UNIQUE"`
 	Is_verified       string `json:"is_verified" gorm:"default:inactive" ,gorm:"NOT NULL"`
 }
 

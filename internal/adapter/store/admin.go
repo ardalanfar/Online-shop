@@ -10,8 +10,9 @@ func (s DbConn) ShowMembers(ctx context.Context) ([]entity.User, error) {
 	var users []entity.User
 
 	//get all id,email,username,password
-	if err := s.Db.WithContext(ctx).Select("id", "email", "username", "password").Find(&users).Error; err != nil {
-		return nil, err
+	err := s.Db.WithContext(ctx).Select("id", "email", "username", "password").Find(&users)
+	if err.Error != nil {
+		return nil, err.Error
 	}
 	//return
 	return users, nil
@@ -21,9 +22,9 @@ func (s DbConn) DeleteMember(ctx context.Context, user entity.User) error {
 	u := model.MapFromUserEntity(user)
 
 	//delete username by id
-	errDel := s.Db.WithContext(ctx).Delete(&u).Error
-	if errDel != nil {
-		return errDel
+	err := s.Db.WithContext(ctx).Delete(&u)
+	if err.Error != nil {
+		return err.Error
 	}
 	//return
 	return nil
@@ -33,8 +34,9 @@ func (s DbConn) ShowInfoMember(ctx context.Context, user entity.User) (entity.Us
 	u := model.MapFromUserEntity(user)
 
 	//get "id", "email", "username" by username
-	if err := s.Db.WithContext(ctx).Select("id", "email", "username").First(&u).Error; err != nil {
-		return entity.User{}, err
+	err := s.Db.WithContext(ctx).Select("id", "email", "username").First(&u)
+	if err.Error != nil {
+		return entity.User{}, err.Error
 	}
 	//return
 	return model.MapToUserEntity(u), nil

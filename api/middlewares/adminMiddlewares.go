@@ -25,7 +25,6 @@ func SetAdminGroup(grp *echo.Group) {
 
 func TokenRefresherMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
-
 		if c.Get("user") == nil {
 			return next(c)
 		}

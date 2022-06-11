@@ -17,7 +17,7 @@ func ShowMembers(conn store.DbConn) echo.HandlerFunc {
 		var req = dto.ShowMembersRequest{}
 
 		//send service
-		resService, errService := admin_service.NewMember(conn).ShowMembers(c.Request().Context(), req)
+		resService, errService := admin_service.NewAdmin(conn).ShowMembers(c.Request().Context(), req)
 		if errService != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, customerror.Unsuccessful())
 		}
@@ -40,7 +40,7 @@ func DeleteMember(conn store.DbConn, validator contract.ValidateDeleteMember) ec
 			return echo.NewHTTPError(http.StatusUnprocessableEntity, customerror.InfoNotValid())
 		}
 		//send service
-		resService, errService := admin_service.NewMember(conn).DeleteMember(c.Request().Context(), req)
+		resService, errService := admin_service.NewAdmin(conn).DeleteMember(c.Request().Context(), req)
 		if errService != nil && resService.Result == false {
 			return echo.NewHTTPError(http.StatusInternalServerError, customerror.InfoIncorrect())
 		}
@@ -64,7 +64,7 @@ func ShowInfoMember(conn store.DbConn, validator contract.ValidateShowInfoMember
 			return echo.NewHTTPError(http.StatusUnprocessableEntity, customerror.InfoNotValid())
 		}
 		//send service
-		resService, errService := admin_service.NewMember(conn).ShowInfoMember(c.Request().Context(), req)
+		resService, errService := admin_service.NewAdmin(conn).ShowInfoMember(c.Request().Context(), req)
 		if errService != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, customerror.InfoIncorrect())
 		}

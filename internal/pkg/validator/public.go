@@ -11,7 +11,7 @@ import (
 )
 
 func ValidateRegister(conn store.DbConn) contract.ValidateRegister {
-	return func(ctx context.Context, req dto.CreateUserRequest) error {
+	return func(ctx context.Context, req dto.RegisterUserRequest) error {
 		return validation.ValidateStruct(&req,
 			validation.Field(&req.Username, validation.Required),
 			validation.Field(&req.Email, validation.Required, is.Email),

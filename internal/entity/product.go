@@ -1,6 +1,6 @@
 package entity
 
-//Entity product
+//Entity Product
 
 type Product struct {
 	ID       uint   `json:"id"`

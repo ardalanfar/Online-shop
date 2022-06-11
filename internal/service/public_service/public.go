@@ -13,11 +13,11 @@ type Interactor struct {
 	store contract.PublicStore
 }
 
-func NewAuth(store contract.PublicStore) Interactor {
+func NewPublic(store contract.PublicStore) Interactor {
 	return Interactor{store: store}
 }
 
-func (i Interactor) Register(ctx context.Context, req dto.CreateUserRequest) (dto.CreateUserResponse, error) {
+func (i Interactor) Register(ctx context.Context, req dto.RegisterUserRequest) (dto.RegisterUserResponse, error) {
 	user := entity.User{
 		Username: req.Username,
 		Email:    req.Email,
@@ -27,7 +27,7 @@ func (i Interactor) Register(ctx context.Context, req dto.CreateUserRequest) (dt
 	//create hash password
 	Password, errhash := encrypt.HashPassword(user.Password)
 	if errhash != nil {
-		return dto.CreateUserResponse{Result: false}, errhash
+		return dto.RegisterUserResponse{Result: false}, errhash
 	}
 	user.Password = Password
 	//create verification code
@@ -36,12 +36,12 @@ func (i Interactor) Register(ctx context.Context, req dto.CreateUserRequest) (dt
 	randCode := rand.Intn(max-min) + min
 	user.Verification_code = uint(randCode)
 	//create user
-	createdUser, errCrate := i.store.Register(ctx, user)
+	errCrate := i.store.Register(ctx, user)
 	if errCrate != nil {
-		return dto.CreateUserResponse{Result: false}, errCrate
+		return dto.RegisterUserResponse{Result: false}, errCrate
 	}
 	//return
-	return dto.CreateUserResponse{User: createdUser, Result: true}, nil
+	return dto.RegisterUserResponse{Result: true}, nil
 }
 
 func (i Interactor) Login(ctx context.Context, req dto.LoginUserRequest) (dto.LoginUserResponse, error) {

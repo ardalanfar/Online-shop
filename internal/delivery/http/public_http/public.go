@@ -17,7 +17,7 @@ import (
 
 func Register(conn store.DbConn, validator contract.ValidateRegister) echo.HandlerFunc {
 	return func(c echo.Context) error {
-		var req = dto.CreateUserRequest{}
+		var req = dto.RegisterUserRequest{}
 
 		//bind user information
 		if errBind := json.NewDecoder(c.Request().Body).Decode(&req); errBind != nil {
@@ -28,7 +28,7 @@ func Register(conn store.DbConn, validator contract.ValidateRegister) echo.Handl
 			return echo.NewHTTPError(http.StatusUnprocessableEntity, customerror.InfoNotValid())
 		}
 		//send service
-		resService, errService := public_service.NewAuth(conn).Register(c.Request().Context(), req)
+		resService, errService := public_service.NewPublic(conn).Register(c.Request().Context(), req)
 		if errService != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, customerror.InfoIncorrect())
 		}
@@ -36,7 +36,7 @@ func Register(conn store.DbConn, validator contract.ValidateRegister) echo.Handl
 		if resService.Result == true {
 			config := config.GetConfig().Email
 			to := []string{
-				resService.User.Email,
+				req.Email,
 			}
 			subject := "verify register"
 			request := sendmsg.Mail{
@@ -70,7 +70,7 @@ func Login(conn store.DbConn, validator contract.ValidateLogin) echo.HandlerFunc
 			return echo.NewHTTPError(http.StatusUnprocessableEntity, customerror.InfoNotValid())
 		}
 		//send service
-		resService, errService := public_service.NewAuth(conn).Login(c.Request().Context(), req)
+		resService, errService := public_service.NewPublic(conn).Login(c.Request().Context(), req)
 		if errService != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, customerror.InfoIncorrect())
 		}
@@ -99,7 +99,7 @@ func MemberValidation(conn store.DbConn, validator contract.ValidateMemberValida
 			return echo.NewHTTPError(http.StatusUnprocessableEntity, customerror.InfoNotValid())
 		}
 		//send service
-		resService, errService := public_service.NewAuth(conn).MemberValidation(c.Request().Context(), req)
+		resService, errService := public_service.NewPublic(conn).MemberValidation(c.Request().Context(), req)
 		if errService != nil || resService.Result == false {
 			return echo.NewHTTPError(http.StatusInternalServerError, customerror.InfoIncorrect())
 		}

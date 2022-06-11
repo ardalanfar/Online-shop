@@ -9,21 +9,21 @@ import (
 	"context"
 )
 
-func (s DbConn) Register(ctx context.Context, user entity.User) (entity.User, error) {
+func (s DbConn) Register(ctx context.Context, user entity.User) error {
 	u := model.MapFromUserEntity(user)
 
 	//cheek username and email
 	Cheek := s.Db.WithContext(ctx).Select("id").Where("username = ? OR email = ?", u.Username, u.Email).First(&u)
 	if Cheek.Error != nil && Cheek.RowsAffected != 0 && u.ID != 0 {
-		return entity.User{}, Cheek.Error
+		return Cheek.Error
 	}
 	//create user
 	Create := s.Db.WithContext(ctx).Create(&u)
 	if Create.Error != nil {
-		return entity.User{}, Create.Error
+		return Create.Error
 	}
 	//return
-	return model.MapToUserEntity(u), nil
+	return nil
 }
 
 func (s DbConn) Login(ctx context.Context, user entity.User) (entity.User, error) {

@@ -38,11 +38,11 @@ func GetConfig() *Config {
 
 		Email: &SendEmail{
 			//Sender data.
-			From:     "ar4sh_ardalan@yahoo.com",
+			From:     "arashcrypto@yahoo.com",
 			Username: "ar4sh_ardalan@yahoo.com",
-			Password: "",
+			Password: "baba12332134",
 			//smtp server configuration.
-			SmtpHost: "smtp.mail.yahoo.com",
+			SmtpHost: "smtp.yahoo.com",
 			SmtpPort: "465",
 		},
 	}

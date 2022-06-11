@@ -5,7 +5,7 @@ package dto
 import "Farashop/internal/entity"
 
 /*-------------------------Member Management----------------------------*/
-/*----------------ShowMembers--------------------*/
+/*----------------Show Members--------------------*/
 
 type ShowMembersRequest struct{}
 
@@ -13,7 +13,7 @@ type ShowMembersResponse struct {
 	Users []entity.User `json:"users"`
 }
 
-/*---------------DeleteMember---------------------*/
+/*---------------Delete Member---------------------*/
 
 type DeleteMemberRequest struct {
 	ID uint `json:"id"`

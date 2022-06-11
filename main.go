@@ -4,6 +4,7 @@ import (
 	"Farashop/api/middlewares"
 	"Farashop/internal/adapter/store"
 	"Farashop/internal/delivery/http/admin_http"
+	"Farashop/internal/delivery/http/member_http"
 	"Farashop/internal/delivery/http/public_http"
 	"Farashop/internal/pkg/validator"
 
@@ -33,21 +34,27 @@ func main() {
 
 	/*--------------------------------------------------------------*/
 	//Admin Group
-	adminGroup := e.Group("/admin")
-	middlewares.SetAdminGroup(adminGroup)
+	AdminGroup := e.Group("/admin")
+	middlewares.SetAdminGroup(AdminGroup)
 
 	/*------------Member Management------------*/
-	MemberManagement := adminGroup.Group("/membermanagement")
+	MemberManagement := AdminGroup.Group("/membermanagement")
 	MemberManagement.GET("/showmembers", admin_http.ShowMembers(conn))
 	MemberManagement.DELETE("/deletemember/:id", admin_http.DeleteMember(conn, validator.ValidateDeleteMember(conn)))
 	//MemberManagement.POST("/showinfo/:id", admin_http.ShowInfoMember(conn, validator.ValidateShowInfoMember(conn)))
 	/*--------------------------------------------------------------*/
 
 	//Member Group
-	//memberGroup := e.Group("/member")
+	MemberGroup := e.Group("/member")
+	middlewares.SetMemberGroup(MemberGroup)
+
 	/*-----------------------Order Management-----------------------*/
+
+	OrderManagement := MemberGroup.Group("/ordermanagement")
+	OrderManagement.GET("/showorders", member_http.ShowOrders(conn))
+
 	/*--------------------------------------------------------------*/
 
 	//Starting the server
-	e.Logger.Fatal(e.Start(":8086"))
+	e.Logger.Fatal(e.Start(":8087"))
 }
