@@ -3,6 +3,7 @@ package middlewares
 import (
 	"Farashop/internal/entity"
 	"Farashop/pkg/auth"
+	"Farashop/pkg/customerror"
 	"net/http"
 	"time"
 
@@ -20,10 +21,25 @@ func SetAdminGroup(grp *echo.Group) {
 		ErrorHandlerWithContext: auth.JWTErrorChecker,
 	}))
 
-	grp.Use(TokenRefresherMiddleware)
+	grp.Use(TokenRefresherMiddlewareAdmin)
+	grp.Use(CheckAccessAdmin)
 }
 
-func TokenRefresherMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
+func CheckAccessAdmin(next echo.HandlerFunc) echo.HandlerFunc {
+	return func(c echo.Context) error {
+		if c.Get("user") == nil {
+			return next(c)
+		}
+		u := c.Get("user").(*jwt.Token)
+		claims := u.Claims.(*auth.Claims)
+		if int(claims.Access) == 1 {
+			return next(c)
+		}
+		return c.JSON(http.StatusBadRequest, customerror.NOAccess())
+	}
+}
+
+func TokenRefresherMiddlewareAdmin(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		if c.Get("user") == nil {
 			return next(c)
@@ -51,7 +67,6 @@ func TokenRefresherMiddleware(next echo.HandlerFunc) echo.HandlerFunc {
 						Username: claims.Name,
 					}, c)
 				}
-
 			}
 		}
 		return next(c)
