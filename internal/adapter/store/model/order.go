@@ -1,6 +1,9 @@
 package model
 
-import "time"
+import (
+	"Farashop/internal/entity"
+	"time"
+)
 
 //Order model database
 
@@ -11,6 +14,25 @@ type Order struct {
 	Number     uint      `json:"number" gorm:"NOT NULL"`
 	Status     string    `json:"status" gorm:"NOT NULL"`
 	Buy_time   time.Time `json:"buy_time" gorm:"NOT NULL"`
+}
+
+/*-----------------------------------------------------*/
+func MapFromOrderEntity(order entity.Order) Order {
+	return Order{
+		ID:       order.ID,
+		Number:   order.Number,
+		Buy_time: order.Buy_time,
+		Status:   order.Status,
+	}
+}
+
+func MapToOrderEntity(order Order) entity.Order {
+	return entity.Order{
+		ID:       order.ID,
+		Number:   order.Number,
+		Buy_time: order.Buy_time,
+		Status:   order.Status,
+	}
 }
 
 /*-----------------------------------------------------*/

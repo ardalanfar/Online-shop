@@ -23,7 +23,19 @@ func SetMemberGroup(grp *echo.Group) {
 
 	grp.Use(TokenRefresherMiddlewareMember)
 	grp.Use(CheckAccessMember)
+	// grp.Use(AccessInfo)
 }
+
+// func AccessInfo(next echo.HandlerFunc) echo.HandlerFunc {
+// 	return func(c echo.Context) error {
+// 		if c.Get("user") == nil {
+// 			return next(c)
+// 		}
+// 		u := c.Get("user").(*jwt.Token)
+// 		claims := u.Claims.(*auth.Claims)
+// 		return claims.ID
+// 	}
+// }
 
 func CheckAccessMember(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {

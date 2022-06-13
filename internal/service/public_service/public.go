@@ -36,8 +36,8 @@ func (i Interactor) Register(ctx context.Context, req dto.RegisterUserRequest) (
 	randCode := rand.Intn(max-min) + min
 	user.Verification_code = uint(randCode)
 	//create user
-	errCrate := i.store.Register(ctx, user)
-	if errCrate != nil {
+	resCreate, errCrate := i.store.Register(ctx, user)
+	if errCrate != nil || !resCreate {
 		return dto.RegisterUserResponse{Result: false}, errCrate
 	}
 	//return
@@ -70,9 +70,9 @@ func (i Interactor) MemberValidation(ctx context.Context, req dto.MemberValidati
 		Verification_code: req.Code,
 	}
 
-	//
+	//member validation
 	resUpdate, errInfo := i.store.MemberValidation(ctx, user)
-	if errInfo != nil || resUpdate == false {
+	if errInfo != nil || !resUpdate {
 		return dto.MemberValidationResponse{Result: false}, errInfo
 	}
 	//return true

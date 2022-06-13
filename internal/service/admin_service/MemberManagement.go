@@ -3,7 +3,6 @@ package admin_service
 import (
 	"Farashop/internal/contract"
 	"Farashop/internal/dto"
-	"Farashop/internal/entity"
 	"context"
 )
 
@@ -26,11 +25,9 @@ func (i Interactor) ShowMembers(ctx context.Context, _ dto.ShowMembersRequest) (
 }
 
 func (i Interactor) DeleteMember(ctx context.Context, req dto.DeleteMemberRequest) (dto.DeleteMemberResponse, error) {
-	user := entity.User{
-		ID: req.ID,
-	}
+
 	//Delete Member
-	errInfo := i.store.DeleteMember(ctx, user)
+	errInfo := i.store.DeleteMember(ctx, req.ID)
 	if errInfo != nil {
 		return dto.DeleteMemberResponse{Result: false}, errInfo
 	}
@@ -39,11 +36,9 @@ func (i Interactor) DeleteMember(ctx context.Context, req dto.DeleteMemberReques
 }
 
 func (i Interactor) ShowInfoMember(ctx context.Context, req dto.ShowInfoMemberRequest) (dto.ShowInfoMemberResponse, error) {
-	user := entity.User{
-		ID: req.ID,
-	}
+
 	//get information user by username
-	getInfo, errInfo := i.store.ShowInfoMember(ctx, user)
+	getInfo, errInfo := i.store.ShowInfoMember(ctx, req.ID)
 	if errInfo != nil {
 		return dto.ShowInfoMemberResponse{User: getInfo}, errInfo
 	}

@@ -1,20 +1,26 @@
 package store
 
 import (
+	"Farashop/internal/adapter/store/model"
 	"Farashop/internal/entity"
 	"context"
 )
 
-func (s DbConn) ShowOrders(ctx context.Context) ([]entity.Order, error) {
-	var orders []entity.Order
-	//id :=
+func (s DbConn) ShowOrders(ctx context.Context, userID uint) ([]entity.Order, error) {
+	var orders []model.Order
 
 	//get all
-	err := s.Db.WithContext(ctx).Select("product_id", "nimber", "buy_time", "status").Where("user_id", 2).Find(&orders)
-	if err.Error != nil {
-		return nil, err.Error
+	cheek := s.Db.WithContext(ctx).Table("orders").Select("orders.id", "orders.number", "orders.buy_time", "orders.status", "products.name").Joins("JOIN products ON products.id = orders.product_id").Where("user_id", userID).Find(&orders)
+	orderEntities := make([]entity.Order, len(orders))
+
+	if cheek.Error != nil {
+		return nil, cheek.Error
+	}
+
+	for i := range orders {
+		orderEntities[i] = model.MapToOrderEntity(orders[i])
 	}
 
 	//return
-	return orders, nil
+	return orderEntities, nil
 }

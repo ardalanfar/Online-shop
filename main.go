@@ -38,10 +38,10 @@ func main() {
 	middlewares.SetAdminGroup(AdminGroup)
 
 	/*------------Member Management------------*/
-	MemberManagement := AdminGroup.Group("/membermanagement")
+	MemberManagement := AdminGroup.Group("/members")
 	MemberManagement.GET("/showmembers", admin_http.ShowMembers(conn))
 	MemberManagement.DELETE("/deletemember/:id", admin_http.DeleteMember(conn, validator.ValidateDeleteMember(conn)))
-	//MemberManagement.POST("/showinfo/:id", admin_http.ShowInfoMember(conn, validator.ValidateShowInfoMember(conn)))
+	MemberManagement.POST("/showinfo/:id", admin_http.ShowInfoMember(conn, validator.ValidateShowInfoMember(conn)))
 	/*--------------------------------------------------------------*/
 
 	//Member Group
@@ -50,11 +50,13 @@ func main() {
 
 	/*-----------------------Order Management-----------------------*/
 
-	OrderManagement := MemberGroup.Group("/ordermanagement")
+	OrderManagement := MemberGroup.Group("/orders")
 	OrderManagement.GET("/showorders", member_http.ShowOrders(conn))
+
+	//OrderManagement.GET("/OrderPayment")
 
 	/*--------------------------------------------------------------*/
 
 	//Starting the server
-	e.Logger.Fatal(e.Start(":8015"))
+	e.Logger.Fatal(e.Start(":8043"))
 }

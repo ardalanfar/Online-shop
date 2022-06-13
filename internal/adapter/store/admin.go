@@ -7,37 +7,50 @@ import (
 )
 
 func (s DbConn) ShowMembers(ctx context.Context) ([]entity.User, error) {
-	var users []entity.User
+	var users []model.User
 
 	//get all id,email,username,password
-	err := s.Db.WithContext(ctx).Select("id", "email", "username", "password").Find(&users)
-	if err.Error != nil {
-		return nil, err.Error
+	cheek := s.Db.WithContext(ctx).Select("id", "email", "username", "password").Find(&users)
+	if cheek.Error != nil {
+		return nil, cheek.Error
 	}
+
+	usersEntities := make([]entity.User, len(users))
+
+	for i := range users {
+		usersEntities[i] = model.MapToUserEntity(users[i])
+	}
+
 	//return
-	return users, nil
+	return usersEntities, nil
 }
 
-func (s DbConn) DeleteMember(ctx context.Context, user entity.User) error {
-	u := model.MapFromUserEntity(user)
+func (s DbConn) DeleteMember(ctx context.Context, userID uint) error {
+	var user model.User
+
+	//find user for delete
+	cheekFind := s.Db.WithContext(ctx).Where("id = ?", userID).First(&user)
+	if cheekFind.Error != nil {
+		return cheekFind.Error
+	}
 
 	//delete username by id
-	err := s.Db.WithContext(ctx).Delete(&u)
-	if err.Error != nil {
-		return err.Error
+	cheekDelete := s.Db.WithContext(ctx).Delete(&user)
+	if cheekDelete.Error != nil {
+		return cheekDelete.Error
 	}
 	//return
 	return nil
 }
 
-func (s DbConn) ShowInfoMember(ctx context.Context, user entity.User) (entity.User, error) {
-	u := model.MapFromUserEntity(user)
+func (s DbConn) ShowInfoMember(ctx context.Context, userID uint) (entity.User, error) {
+	var user model.User
 
 	//get "id", "email", "username" by username
-	err := s.Db.WithContext(ctx).Select("id", "email", "username").First(&u)
-	if err.Error != nil {
-		return entity.User{}, err.Error
+	cheek := s.Db.WithContext(ctx).Select("users.id", "users.email", "users.username", "users.access", "users.is_verified").Where("id", userID).First(&user)
+	if cheek.Error != nil {
+		return entity.User{}, cheek.Error
 	}
 	//return
-	return model.MapToUserEntity(u), nil
+	return model.MapToUserEntity(user), nil
 }

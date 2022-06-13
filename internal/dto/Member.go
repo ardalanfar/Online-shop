@@ -10,7 +10,7 @@ import "Farashop/internal/entity"
 type ShowOrdersRequest struct{}
 
 type ShowOrdersResponse struct {
-	Orders []entity.Order `json:"order"`
+	Orders []entity.Order `json:"orders"`
 }
 
 /*--------------------Edit Order---------------------*/
