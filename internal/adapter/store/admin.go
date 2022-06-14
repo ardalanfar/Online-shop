@@ -2,6 +2,7 @@ package store
 
 import (
 	"Farashop/internal/adapter/store/model"
+	"Farashop/internal/dto"
 	"Farashop/internal/entity"
 	"context"
 )
@@ -43,14 +44,14 @@ func (s DbConn) DeleteMember(ctx context.Context, userID uint) error {
 	return nil
 }
 
-func (s DbConn) ShowInfoMember(ctx context.Context, userID uint) (entity.User, error) {
-	var user model.User
+func (s DbConn) ShowInfoMember(ctx context.Context, userID uint) (dto.ShowInfoMember, error) {
+	var info dto.ShowInfoMember
 
-	//get "id", "email", "username" by username
-	cheek := s.Db.WithContext(ctx).Select("users.id", "users.email", "users.username", "users.access", "users.is_verified").Where("id", userID).First(&user)
+	//get "users.email", "users.username", "users.access", "users.is_verified", "products.name", "orders.number", "orders.status", "orders.buy_time" by userID
+	cheek := s.Db.WithContext(ctx).Table("users").Select("users.email", "users.username", "users.access", "users.is_verified", "wallets.balance").Joins("JOIN wallets ON users.id = wallets.user_id").Where("users.id", userID).Find(&info)
 	if cheek.Error != nil {
-		return entity.User{}, cheek.Error
+		return dto.ShowInfoMember{}, cheek.Error
 	}
 	//return
-	return model.MapToUserEntity(user), nil
+	return info, nil
 }

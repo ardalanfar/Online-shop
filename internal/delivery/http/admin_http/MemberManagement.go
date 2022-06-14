@@ -66,7 +66,7 @@ func ShowInfoMember(conn store.DbConn, validator contract.ValidateShowInfoMember
 		//send service
 		resService, errService := admin_service.NewAdmin(conn).ShowInfoMember(c.Request().Context(), req)
 		if errService != nil {
-			return echo.NewHTTPError(http.StatusInternalServerError, customerror.InfoIncorrect())
+			return echo.NewHTTPError(http.StatusInternalServerError, resService)
 		}
 
 		//return ui

@@ -1,7 +1,5 @@
 package dto
 
-import "Farashop/internal/entity"
-
 //Member Contract Interactor Request And Response (Struct)
 
 /*-------------------------Order Management----------------------------*/
@@ -10,7 +8,7 @@ import "Farashop/internal/entity"
 type ShowOrdersRequest struct{}
 
 type ShowOrdersResponse struct {
-	Orders []entity.Order `json:"orders"`
+	Orders []Showorders `json:"orders"`
 }
 
 /*--------------------Edit Order---------------------*/

@@ -53,10 +53,8 @@ func main() {
 	OrderManagement := MemberGroup.Group("/orders")
 	OrderManagement.GET("/showorders", member_http.ShowOrders(conn))
 
-	//OrderManagement.GET("/OrderPayment")
-
 	/*--------------------------------------------------------------*/
 
 	//Starting the server
-	e.Logger.Fatal(e.Start(":8043"))
+	e.Logger.Fatal(e.Start(":8057"))
 }

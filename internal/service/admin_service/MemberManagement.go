@@ -40,9 +40,8 @@ func (i Interactor) ShowInfoMember(ctx context.Context, req dto.ShowInfoMemberRe
 	//get information user by username
 	getInfo, errInfo := i.store.ShowInfoMember(ctx, req.ID)
 	if errInfo != nil {
-		return dto.ShowInfoMemberResponse{User: getInfo}, errInfo
+		return dto.ShowInfoMemberResponse{Info: getInfo}, errInfo
 	}
 	//return true
-	return dto.ShowInfoMemberResponse{User: getInfo}, nil
-
+	return dto.ShowInfoMemberResponse{Info: getInfo}, nil
 }
