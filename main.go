@@ -48,7 +48,7 @@ func main() {
 	MemberGroup := e.Group("/member")
 	middlewares.SetMemberGroup(MemberGroup)
 
-	/*-----------------------Order Management-----------------------*/
+	/*--------------Order Management-------------*/
 
 	OrderManagement := MemberGroup.Group("/orders")
 	OrderManagement.GET("/showorders", member_http.ShowOrders(conn))
@@ -56,5 +56,6 @@ func main() {
 	/*--------------------------------------------------------------*/
 
 	//Starting the server
-	e.Logger.Fatal(e.Start(":8057"))
+	e.Logger.Fatal(e.Start(":8066"))
+
 }
