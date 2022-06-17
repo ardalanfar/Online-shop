@@ -4,6 +4,7 @@ package config
 type Config struct {
 	DB    *DBConfig
 	Email *SendEmail
+	Log   *Logging
 }
 
 //config database postgresql
@@ -22,6 +23,11 @@ type SendEmail struct {
 	Password string
 	SmtpHost string
 	SmtpPort string
+}
+
+//Log Directory
+type Logging struct {
+	LogDirectory string
 }
 
 //set config app
@@ -44,6 +50,10 @@ func GetConfig() *Config {
 			//smtp server configuration.
 			SmtpHost: "smtp.gmail.com",
 			SmtpPort: "587",
+		},
+
+		Log: &Logging{
+			LogDirectory: "logApp.log",
 		},
 	}
 }

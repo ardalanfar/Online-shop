@@ -15,13 +15,11 @@ func (s DbConn) ShowMembers(ctx context.Context) ([]entity.User, error) {
 	if cheek.Error != nil {
 		return nil, cheek.Error
 	}
-
 	usersEntities := make([]entity.User, len(users))
 
 	for i := range users {
 		usersEntities[i] = model.MapToUserEntity(users[i])
 	}
-
 	//return
 	return usersEntities, nil
 }

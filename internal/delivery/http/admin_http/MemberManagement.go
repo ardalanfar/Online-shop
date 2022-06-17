@@ -68,7 +68,6 @@ func ShowInfoMember(conn store.DbConn, validator contract.ValidateShowInfoMember
 		if errService != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, resService)
 		}
-
 		//return ui
 		return c.JSON(http.StatusOK, resService)
 	}

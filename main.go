@@ -3,10 +3,12 @@ package main
 import (
 	"Farashop/api/middlewares"
 	"Farashop/internal/adapter/store"
+	"Farashop/internal/config"
 	"Farashop/internal/delivery/http/admin_http"
 	"Farashop/internal/delivery/http/member_http"
 	"Farashop/internal/delivery/http/public_http"
 	"Farashop/internal/pkg/validator"
+	"os"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -19,6 +21,11 @@ func main() {
 
 	//Setup http server
 	e := echo.New()
+
+	//Logger
+	filePath, _ := os.OpenFile(config.GetConfig().Log.LogDirectory, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
+	e.Logger.SetOutput(filePath)
+	defer filePath.Close()
 
 	//Middlewares
 	middlewares.SetMainMiddleware(e)
@@ -56,6 +63,5 @@ func main() {
 	/*--------------------------------------------------------------*/
 
 	//Starting the server
-	e.Logger.Fatal(e.Start(":8066"))
-
+	e.Logger.Fatal(e.Start(":8072"))
 }

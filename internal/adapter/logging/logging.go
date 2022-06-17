@@ -29,7 +29,6 @@ func SetLogFile() *os.File {
 	year, month, day := time.Now().Date()
 	fileName := fmt.Sprintf("%v-%v-%v.log", day, month.String(), year)
 	filePath, _ := os.OpenFile(LogsDirpath+"/"+fileName, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0666)
-
 	return filePath
 }
 
