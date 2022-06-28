@@ -1,0 +1,12 @@
+
+   ____    __
+  / __/___/ /  ___
+ / _// __/ _ \/ _ \
+/___/\__/_//_/\___/ v4.7.2
+High performance, minimalist Go web framework
+https://echo.labstack.com
+____________________________________O/_______
+                                    O\
+⇨ http server started on [::]:8075
+time=, method=POST, uri=/register, status=500, user_agent=PostmanRuntime/7.29.0 
+time=, method=POST, uri=/register, status=500, user_agent=PostmanRuntime/7.29.0 

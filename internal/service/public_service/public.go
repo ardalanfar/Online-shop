@@ -30,11 +30,17 @@ func (i Interactor) Register(ctx context.Context, req dto.RegisterUserRequest) (
 		return dto.RegisterUserResponse{Result: false}, errhash
 	}
 	user.Password = Password
+
 	//create verification code
 	min := 10000
 	max := 99999
 	randCode := rand.Intn(max-min) + min
 	user.Verification_code = uint(randCode)
+
+	//test
+	// user.Verification_code = 55458
+	// user.ID = 0
+
 	//create user
 	resCreate, errCrate := i.store.Register(ctx, user)
 	if errCrate != nil || !resCreate {

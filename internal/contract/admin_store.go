@@ -6,7 +6,7 @@ import (
 	"context"
 )
 
-//admin store(adapter) contract (interface)
+//admin store contract (interface)
 
 type AdminStore interface {
 	ShowMembers(ctx context.Context) ([]entity.User, error)

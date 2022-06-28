@@ -9,7 +9,7 @@ import (
 	"gorm.io/gorm"
 )
 
-//connect to the postgres
+//connect to the postgresql
 
 type DbConn struct {
 	Db *gorm.DB

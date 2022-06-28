@@ -5,7 +5,7 @@ import (
 	"context"
 )
 
-//public store(adapter) contract (interface)
+//public store contract (interface)
 
 type PublicStore interface {
 	Register(ctx context.Context, user entity.User) (bool, error)

@@ -1,6 +1,6 @@
 package model
 
-//Wallet model database
+//Wallet database model
 
 type Wallet struct {
 	ID      uint `json:"id" gorm:"primary_key,serializer:json,NOT NULL"`
@@ -9,4 +9,6 @@ type Wallet struct {
 }
 
 /*-----------------------------------------------------*/
+//convert data model to database model
+
 /*-----------------------------------------------------*/

@@ -2,7 +2,7 @@ package model
 
 import "Farashop/internal/entity"
 
-//User model database
+//User database model 
 
 type User struct {
 	ID                uint   `json:"id" gorm:"primary_key,serializer:json,NOT NULL"`
@@ -15,6 +15,7 @@ type User struct {
 }
 
 /*-----------------------------------------------------*/
+//convert data model to database model
 
 func MapFromUserEntity(user entity.User) User {
 	return User{

@@ -39,9 +39,9 @@ func DeleteMember(conn store.DbConn, validator contract.ValidateDeleteMember) ec
 		if errValidat := validator(c.Request().Context(), req); errValidat != nil {
 			return echo.NewHTTPError(http.StatusUnprocessableEntity, customerror.InfoNotValid())
 		}
-		//send service
+		//service
 		resService, errService := admin_service.NewAdmin(conn).DeleteMember(c.Request().Context(), req)
-		if errService != nil && resService.Result == false {
+		if errService != nil && !resService.Result {
 			return echo.NewHTTPError(http.StatusInternalServerError, customerror.InfoIncorrect())
 		}
 		//return ui
@@ -63,7 +63,7 @@ func ShowInfoMember(conn store.DbConn, validator contract.ValidateShowInfoMember
 		if errValidat := validator(c.Request().Context(), req); errValidat != nil {
 			return echo.NewHTTPError(http.StatusUnprocessableEntity, customerror.InfoNotValid())
 		}
-		//send service
+		//service
 		resService, errService := admin_service.NewAdmin(conn).ShowInfoMember(c.Request().Context(), req)
 		if errService != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, resService)

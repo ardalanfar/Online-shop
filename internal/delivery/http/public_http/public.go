@@ -27,13 +27,13 @@ func Register(conn store.DbConn, validator contract.ValidateRegister) echo.Handl
 		if errValidat := validator(c.Request().Context(), req); errValidat != nil {
 			return echo.NewHTTPError(http.StatusUnprocessableEntity, customerror.InfoNotValid())
 		}
-		//send service
+		//service
 		resService, errService := public_service.NewPublic(conn).Register(c.Request().Context(), req)
 		if errService != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, customerror.InfoIncorrect())
 		}
 		//send email welcome register
-		if resService.Result == true {
+		if resService.Result {
 			config := config.GetConfig().Email
 			to := []string{
 				req.Email,
@@ -69,7 +69,7 @@ func Login(conn store.DbConn, validator contract.ValidateLogin) echo.HandlerFunc
 		if errValidat := validator(c.Request().Context(), req); errValidat != nil {
 			return echo.NewHTTPError(http.StatusUnprocessableEntity, customerror.InfoNotValid())
 		}
-		//send service
+		//service
 		resService, errService := public_service.NewPublic(conn).Login(c.Request().Context(), req)
 		if errService != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, customerror.InfoIncorrect())
@@ -98,9 +98,9 @@ func MemberValidation(conn store.DbConn, validator contract.ValidateMemberValida
 		if errValidat := validator(c.Request().Context(), req); errValidat != nil {
 			return echo.NewHTTPError(http.StatusUnprocessableEntity, customerror.InfoNotValid())
 		}
-		//send service
+		//service
 		resService, errService := public_service.NewPublic(conn).MemberValidation(c.Request().Context(), req)
-		if errService != nil || resService.Result == false {
+		if errService != nil || !resService.Result {
 			return echo.NewHTTPError(http.StatusInternalServerError, customerror.InfoIncorrect())
 		}
 		//return ui

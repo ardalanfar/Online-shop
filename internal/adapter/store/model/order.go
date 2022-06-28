@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-//Order model database
+//Order database model
 
 type Order struct {
 	ID         uint      `json:"id" gorm:"primary_key,serializer:json,NOT NULL"`
@@ -17,6 +17,8 @@ type Order struct {
 }
 
 /*-----------------------------------------------------*/
+//convert data model to database model
+
 func MapFromOrderEntity(order entity.Order) Order {
 	return Order{
 		ID:       order.ID,

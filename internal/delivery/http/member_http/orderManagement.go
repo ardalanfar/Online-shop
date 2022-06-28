@@ -14,7 +14,7 @@ func ShowOrders(conn store.DbConn) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		var req = dto.ShowOrdersRequest{}
 
-		//send Service
+		//Service
 		resService, errService := member_service.NewMember(conn).ShowOrders(c.Request().Context(), req)
 		if errService != nil {
 			return echo.NewHTTPError(http.StatusInternalServerError, customerror.Unsuccessful())
