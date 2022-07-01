@@ -5,7 +5,9 @@ package dto
 /*-------------------------Order Management----------------------------*/
 /*--------------------Show Orders--------------------*/
 
-type ShowOrdersRequest struct{}
+type ShowOrdersRequest struct {
+	ID uint `json:"id"`
+}
 
 type ShowOrdersResponse struct {
 	Orders []Showorders `json:"orders"`

@@ -17,25 +17,13 @@ func SetMemberGroup(grp *echo.Group) {
 	grp.Use(middleware.JWTWithConfig(middleware.JWTConfig{
 		Claims:                  &auth.Claims{},
 		SigningKey:              []byte(auth.GetJWTSecret()),
-		TokenLookup:             "cookie:access-token", // "<source>:<name>"
+		TokenLookup:             "cookie:" + auth.GetAccessTokenCookieName(), // "<source>:<name>"
 		ErrorHandlerWithContext: auth.JWTErrorChecker,
 	}))
 
 	grp.Use(TokenRefresherMiddlewareMember)
 	grp.Use(CheckAccessMember)
-	// grp.Use(AccessInfo)
 }
-
-// func AccessInfo(next echo.HandlerFunc) echo.HandlerFunc {
-// 	return func(c echo.Context) error {
-// 		if c.Get("user") == nil {
-// 			return next(c)
-// 		}
-// 		u := c.Get("user").(*jwt.Token)
-// 		claims := u.Claims.(*auth.Claims)
-// 		return claims.ID
-// 	}
-// }
 
 func CheckAccessMember(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
@@ -59,7 +47,7 @@ func TokenRefresherMiddlewareMember(next echo.HandlerFunc) echo.HandlerFunc {
 		u := c.Get("user").(*jwt.Token)
 		claims := u.Claims.(*auth.Claims)
 
-		if time.Unix(claims.ExpiresAt, 0).Sub(time.Now()) < 10*time.Minute {
+		if time.Unix(claims.ExpiresAt, 0).Sub(time.Now()) < (10 * time.Minute) {
 			rc, err := c.Cookie(auth.GetrefReshTokenCookieName())
 
 			if err == nil && rc != nil {
@@ -77,6 +65,8 @@ func TokenRefresherMiddlewareMember(next echo.HandlerFunc) echo.HandlerFunc {
 				if tkn != nil && tkn.Valid {
 					_ = auth.GenerateTokensAndSetCookies(entity.User{
 						Username: claims.Name,
+						ID:       claims.ID,
+						Access:   claims.Access,
 					}, c)
 				}
 			}

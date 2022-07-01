@@ -11,7 +11,6 @@ import (
 	"os"
 
 	"github.com/labstack/echo/v4"
-	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
@@ -29,12 +28,10 @@ func main() {
 
 	//Middlewares
 	middlewares.SetMainMiddleware(e)
-	e.Use(middleware.Recover())
 
 	//Routes
-
 	/*--------------------------------------------------------------*/
-	//Public Group
+	//Public
 	e.POST("/register", public_http.Register(conn, validator.ValidateRegister(conn)))
 	e.POST("/login", public_http.Login(conn, validator.ValidateLogin(conn)))
 	e.PATCH("/validation", public_http.MemberValidation(conn, validator.ValidateMemberValidation(conn)))
@@ -63,5 +60,5 @@ func main() {
 	/*--------------------------------------------------------------*/
 
 	//Starting the server
-	e.Logger.Fatal(e.Start(":8075"))
+	e.Logger.Fatal(e.Start(":8014"))
 }

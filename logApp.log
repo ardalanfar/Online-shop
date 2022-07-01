@@ -10,3 +10,59 @@ ____________________________________O/_______
 ⇨ http server started on [::]:8075
 time=, method=POST, uri=/register, status=500, user_agent=PostmanRuntime/7.29.0 
 time=, method=POST, uri=/register, status=500, user_agent=PostmanRuntime/7.29.0 
+
+   ____    __
+  / __/___/ /  ___
+ / _// __/ _ \/ _ \
+/___/\__/_//_/\___/ v4.7.2
+High performance, minimalist Go web framework
+https://echo.labstack.com
+____________________________________O/_______
+                                    O\
+⇨ http server started on [::]:8010
+time=, method=POST, uri=/login, status=200, user_agent=PostmanRuntime/7.29.0 
+time=, method=POST, uri=/members, status=404, user_agent=PostmanRuntime/7.29.0 
+time=, method=POST, uri=/member, status=400, user_agent=PostmanRuntime/7.29.0 
+
+   ____    __
+  / __/___/ /  ___
+ / _// __/ _ \/ _ \
+/___/\__/_//_/\___/ v4.7.2
+High performance, minimalist Go web framework
+https://echo.labstack.com
+____________________________________O/_______
+                                    O\
+{"time":"2022-07-01T22:11:51.086584551+04:30","level":"FATAL","prefix":"echo","file":"main.go","line":"63","message":"listen tcp :8010: bind: address already in use"}
+
+   ____    __
+  / __/___/ /  ___
+ / _// __/ _ \/ _ \
+/___/\__/_//_/\___/ v4.7.2
+High performance, minimalist Go web framework
+https://echo.labstack.com
+____________________________________O/_______
+                                    O\
+⇨ http server started on [::]:8012
+time=, method=POST, uri=/login, status=422, user_agent=PostmanRuntime/7.29.0 
+time=, method=POST, uri=/login, status=422, user_agent=PostmanRuntime/7.29.0 
+time=, method=POST, uri=/login, status=422, user_agent=PostmanRuntime/7.29.0 
+time=, method=POST, uri=/login, status=200, user_agent=PostmanRuntime/7.29.0 
+time=, method=POST, uri=/member, status=404, user_agent=PostmanRuntime/7.29.0 
+time=, method=GET, uri=/member/orders/showorders, status=200, user_agent=PostmanRuntime/7.29.0 
+
+   ____    __
+  / __/___/ /  ___
+ / _// __/ _ \/ _ \
+/___/\__/_//_/\___/ v4.7.2
+High performance, minimalist Go web framework
+https://echo.labstack.com
+____________________________________O/_______
+                                    O\
+⇨ http server started on [::]:8014
+time=, method=GET, uri=/member/orders/showorders, status=200, user_agent=PostmanRuntime/7.29.0 
+time=, method=GET, uri=/login, status=405, user_agent=PostmanRuntime/7.29.0 
+time=, method=POST, uri=/login, status=200, user_agent=PostmanRuntime/7.29.0 
+time=, method=GET, uri=/member/orders/showorders, status=200, user_agent=PostmanRuntime/7.29.0 
+time=, method=GET, uri=/member/orders/showorders, status=200, user_agent=PostmanRuntime/7.29.0 
+time=, method=POST, uri=/login, status=200, user_agent=PostmanRuntime/7.29.0 
+time=, method=GET, uri=/member/orders/showorders, status=200, user_agent=PostmanRuntime/7.29.0 

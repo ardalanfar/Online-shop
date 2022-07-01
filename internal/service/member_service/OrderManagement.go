@@ -14,11 +14,10 @@ func NewMember(store contract.MemberStore) Interactor {
 	return Interactor{store: store}
 }
 
-func (i Interactor) ShowOrders(ctx context.Context, _ dto.ShowOrdersRequest) (dto.ShowOrdersResponse, error) {
+func (i Interactor) ShowOrders(ctx context.Context, req dto.ShowOrdersRequest) (dto.ShowOrdersResponse, error) {
 
-	id := uint(2)
 	//show orders
-	getInfo, errInfo := i.store.ShowOrders(ctx, id)
+	getInfo, errInfo := i.store.ShowOrders(ctx, req.ID)
 	if errInfo != nil {
 		return dto.ShowOrdersResponse{}, errInfo
 	}

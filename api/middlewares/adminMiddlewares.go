@@ -47,7 +47,7 @@ func TokenRefresherMiddlewareAdmin(next echo.HandlerFunc) echo.HandlerFunc {
 		u := c.Get("user").(*jwt.Token)
 		claims := u.Claims.(*auth.Claims)
 
-		if time.Unix(claims.ExpiresAt, 0).Sub(time.Now()) < 10*time.Minute {
+		if time.Unix(claims.ExpiresAt, 0).Sub(time.Now()) < (10 * time.Minute) {
 			rc, err := c.Cookie(auth.GetrefReshTokenCookieName())
 
 			if err == nil && rc != nil {
@@ -65,6 +65,8 @@ func TokenRefresherMiddlewareAdmin(next echo.HandlerFunc) echo.HandlerFunc {
 				if tkn != nil && tkn.Valid {
 					_ = auth.GenerateTokensAndSetCookies(entity.User{
 						Username: claims.Name,
+						ID:       claims.ID,
+						Access:   claims.Access,
 					}, c)
 				}
 			}
